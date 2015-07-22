@@ -1,6 +1,19 @@
 #!/bin/bash
 
-#===========================================================================#
+#==============================================================================#
+# Install UGA syntax highlighting files
+#==============================================================================#
+
+#------------------------------------------------------------------------------#
+# Description
+#------------------------------------------------------------------------------#
+
+# vim syntax highlighting file for BLUPF90 programs
+
+# Author:   Austin Putz <putz[dot]austin[at]gmail[dot]com>
+# Created:  Unknown
+# Modified: 2015-07-22
+# License:  GPLv3 or later
 
 # installUGASyntax
 # 	This bash script will install the syntax highlighting files for UGA
@@ -12,7 +25,7 @@
 # 	:syntax on 
 # 	or put this line into .vimrc so you don't have to set it everytime
 
-#===========================================================================#
+#==============================================================================#
 
 # Instructions if you want to do it yourself
 # 1) Create .vim directory in your home folder (find with echo $HOME)
@@ -25,7 +38,7 @@
 # 5) Make sure all UGA files have the .par extension
 # 		Otherwise they will not be recognized and not highlighted by vim
 
-#===========================================================================#
+#==============================================================================#
 
 # This part will do it for you automatically
 

@@ -1,7 +1,13 @@
-" Vim syntax highlighting file
-" for BLUPF90 family of programs
-" Maintainer: Austin Putz (putz.austin@gmail.com)
-" Latest version: October 18, 2014
+"------------------------------------------------------------------------------#
+" Description
+"------------------------------------------------------------------------------#
+
+" vim syntax highlighting file for BLUPF90 programs
+
+" Author:   Austin Putz <putz[dot]austin[at]gmail[dot]com>
+" Created:  Unknown
+" Modified: 2015-07-22
+" License:  GPLv3 or later
 
 " Please contact me if you find errors or I forgot a keyword (email above).
 
