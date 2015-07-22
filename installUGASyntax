@@ -1,0 +1,156 @@
+#!/bin/bash
+
+#===========================================================================#
+
+# installUGASyntax
+# 	This bash script will install the syntax highlighting files for UGA
+
+# 	Note: Please make sure this file is executable with:
+#		chmod 775 installQMSimSyntax
+
+# 	Make sure syntax highlighting is turned on in vim with:
+# 	:syntax on 
+# 	or put this line into .vimrc so you don't have to set it everytime
+
+#===========================================================================#
+
+# Instructions if you want to do it yourself
+# 1) Create .vim directory in your home folder (find with echo $HOME)
+# 2) Create 2 subdirectories with mkdir
+#  		a) syntax
+# 		b) ftdetect
+# 3) Move par.vim into the syntax folder
+# 4) Move par.vim_ftdetect into the ftdect folder
+# 		a) Rename this file to simply par.vim
+# 5) Make sure all UGA files have the .par extension
+# 		Otherwise they will not be recognized and not highlighted by vim
+
+#===========================================================================#
+
+# This part will do it for you automatically
+
+# Create needed directories (if it exists, it will not be overwritten)
+
+#------------------------------------------------------------------------------#
+printf "\nChecking for directories...\n\n"
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# Create the .vim directory if needed
+#------------------------------------------------------------------------------#
+
+
+# Check if the directory exists
+if [ -d ~/.vim ]; then
+
+	printf "\tThe ~/.vim directory is present in the home directory.\n\n"
+
+else
+
+    # If not found, the directory will be created for the user
+	printf "\tThe ~/.vim directory was not found and will be created for you.\n\n" 
+	mkdir ~/.vim
+
+fi
+
+#------------------------------------------------------------------------------#
+printf "Checking for sub-directories...\n\n"
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# Create the .vim/syntax directory if needed
+#------------------------------------------------------------------------------#
+
+if [ -d ~/.vim/syntax ]; then
+
+	printf "\tThe syntax directory is present in the .vim directory.\n\n"
+
+else
+
+    # If not found, the directory will be created for the user
+	printf "The syntax directory was not found and will be created for you.\n\n"
+	mkdir ~/.vim/syntax
+
+fi
+
+#------------------------------------------------------------------------------#
+# Create the .vim/ftdetet directory if needed
+#------------------------------------------------------------------------------#
+
+if [ -d ~/.vim/ftdetect ]; then
+
+	printf "\tThe ftdetect directory is present in the .vim directory.\n\n"
+
+else
+
+    # If not found, the directory will be created for the user
+	printf "\tThe ftdetect directory was not found and will be created for you.\n\n"
+	mkdir ~/.vim/ftdetect
+
+fi
+
+#------------------------------------------------------------------------------#
+printf "Checking for files in current directory...\n\n"
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# Check for both par.vim and par.vim_ftdetect files in the current directory
+#------------------------------------------------------------------------------#
+
+# If not there it will give an error message
+
+# Look for the par.vim file
+if [ -e par.vim ]; then
+
+	printf "\tpar.vim file is present in the current working directory.\n\n"
+
+else
+
+	printf "\tERROR: The par.vim file cannot be found in the current working directory.\n"
+	printf "\t   Please make sure the file is present in the current working directory.\n\n" >&2
+	exit 1
+
+fi
+
+# Look for the par.vim_ftdetect file
+if [ -e par.vim_ftdetect ]; then
+
+	printf "\tpar.vim_ftdetect file is present in the current working directory.\n\n"
+
+else
+
+	printf "\tERROR: The par.vim_ftdetect file cannot be found in the current working directory.\n" 
+	printf "\t   Please make sure the file is present in the current working directory.\n\n" >&2
+	exit 1
+
+fi
+
+#------------------------------------------------------------------------------#
+# Copy the files into the right directories
+#------------------------------------------------------------------------------#
+
+printf "Copying files into their directory...\n\n"
+
+	cp par.vim ~/.vim/syntax/
+	cp par.vim_ftdetect ~/.vim/ftdetect/
+
+#------------------------------------------------------------------------------#
+# Rename par.vim_ftdetect to par.vim
+#------------------------------------------------------------------------------#
+
+	mv ~/.vim/ftdetect/par.vim_ftdetect ~/.vim/ftdetect/par.vim
+
+#------------------------------------------------------------------------------#
+# Complete!
+#------------------------------------------------------------------------------#
+
+	printf "Complete!\n\n"
+	printf "\tNOTE: Please make sure syntax highlighting is turned on in vim\n"
+	printf "\tInsert \"syntax on\" in your ~/.vimrc file\n\n"
+
+
+
+
+
+
+
