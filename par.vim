@@ -7,7 +7,7 @@
 " Author:   Austin Putz <putz[dot]austin[at]gmail[dot]com>
 " Created:  Unknown
 " Modified: 2015-07-22
-" License:  GPLv3 or later
+" License:  GPLv2
 
 " Please contact me if you find errors or I forgot a keyword (email above).
 
