@@ -8,13 +8,11 @@ OS's: Mac OS X or Linux
 ```
   $ chmod 775 installQMSimSyntax
 ```
-
 2. Run the bash script with:
-
 ```
   $./installQMSimSyntax
 ```
-  
+
 in the same directory you saved the other 2 files.
 
-If you have problems email me. 
+If you have problems email me with questions or comments. I'd gladly take any feedback. 
