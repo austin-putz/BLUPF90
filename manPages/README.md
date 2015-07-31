@@ -17,6 +17,7 @@ alter the manpath on Mac OS X as easy as some people seem to say online, help wa
 
 ### Linux machines:
 
+I need to find a manpath to put these in. 
 
 ## How to use
 
