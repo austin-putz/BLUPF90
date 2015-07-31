@@ -7,12 +7,12 @@
 1. Find a directory that is in your manpath already (I cannot figure out how to 
 alter the manpath on Mac OS X as easy as some people seem to say online, help wanted...)
 
-2.
+2. Copy the man page (marked down) to a directory that man will search. Add a ".1" to the end. 
 ``` 
   $ sudo cp name_of_file /usr/local/share/man/man1/name_of_file.1
 ```
 
-3.
+3. gzip that file you just copied:
 ```
   $ sudo gzip /usr/local/share/man/man1/name_of_file.1
 ```
