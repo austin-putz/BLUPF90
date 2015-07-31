@@ -1,0 +1,720 @@
+.\" Manpage for preGSf90
+.\" Contact amputz@ncsu.edu to correct errors or typos.
+.TH man 1 "2015-03-05" "1.0" "preGSf90 man page"
+
+
+
+
+.SH NAME
+\fBpreGSf90\fR \-\- Pre-processor for genomic analysis with BLUPF90 programs.
+
+
+
+
+.SH DESCRIPTION
+preGSf90 is an interface program to the genomic module to process the genomic information for the BLUPF90 family of programs.
+.br
+	-- Written by Ignacio Aguilar (iaguilar@inia.org.uy)
+.LP
+This program helps to implement the genomic selection following the single-step methodology as presented by Aguilar et al. (2010) JDS.
+.br
+	- In this methodology, the relationship matrix A based on pedigree information is replaced by matrix H, 
+.br
+		which combines pedigree and genomic information.
+.LP
+	-- See renumf90 man page for help setting up the parameter file
+.br
+		Output's renf90.par, which is the parameter file needed for preGSf90 (and other BLUPF90 programs)
+.br
+			-- Main difference is adding the SNP_FILE option.
+.br
+				This will have renumf90 create a yoursnpfilename_XrefID.
+.br
+					This file relates renumbered ID's to original ID's in the order of the snp file. 
+.br
+			NOTE: "SNP_FILE" goes on it's own line for RENUMF90. This is then converted to
+.br
+					"OPTION SNP_file name_of_snp_file" in the output file renf90.par.
+
+
+
+
+.SH INPUT FILES
+1) Parameter file
+.br
+	renf90.par that was created by RENUMF90 with SNP_FILE keyword and name of the file below.
+.LP
+2) Genotype file
+.br
+	Format:   Column 1 = animal ID
+.br
+			Column 2 = genotype with 0, 1, 2, and 5 for missing values
+.br
+				Real values for gene content are possible (e.g. 0.12 0.11 etc...)
+.br
+	KEY: Make sure all genotypes (SNPs) start at the same column (character #) in the SNP file.
+.br
+		Example:
+.br
+			52     20100110110202102
+.br
+			701    12012010222101201
+.br
+			1005   12010210021020201
+.LP
+3) Renumbered ID for genotypes.
+.br
+	This file is written by RENUMF90. 
+.br
+		name_of_snp_file_XrefID	is output.
+.LP
+4) Optional files
+.br
+	i) OPTION FreqFile
+.br
+		- Allele frequencies specified by user
+.br
+	ii) OPTION chrinfo
+.br
+		- Map file for identifying snps
+.br
+	iii) OPTION weightedG
+.br
+		- Weight file
+.br
+	iv) G or it's inverse, A22 or it's inverse, etc...
+
+
+
+
+.SH OPTIONS (Quick)
+** Basic Options **
+.br
+	OPTION \fBchrinfo\fR name_of_file
+.br
+	OPTION \fBsaveCleanSNPs\fR
+.br
+	OPTION \fBno_quality_control\fR
+.br
+	OPTION \fBoutcallrate\fR
+.br
+	OPTION \fBmaxsnp\fR #
+.LP
+** Options for G matrix **
+.br
+	OPTION \fBwhichG\fR #
+.br
+	OPTION \fBwhichfreq\fR #
+.br
+	OPTION \fBwhichfreqScale\fR #
+.br
+	OPTION \fBFreqFile\fR name_of_file
+.br
+	OPTION \fBwhichScale\fR #
+.br
+	OPTION \fBweightedG\fR name_of_file
+.LP
+** Options for H **
+.br
+	OPTION \fBTauOmega\fR tau omega
+.br
+	OPTION \fBAlphaBeta\fR alpha beta
+.br
+	OPTION \fBGammaDelta\fR gamma delta
+.br
+	OPTION \fBtunedG\fR #
+.LP
+** Quality Control (QC) Options **
+.br
+	OPTION \fBminfreq\fR #
+.br
+	OPTION \fBcallrate\fR #
+.br
+	OPTION \fBcallrateAnim\fR #
+.br
+	OPTION \fBmonomorphic\fR #
+.br
+	OPTION \fBhwe\fR #
+.br
+	OPTION \fBhigh_correlation\fR x y
+.br
+	OPTION \fBverify_parentage\fR #
+.br
+	OPTION \fBexclusion_threshold\fR #
+.br
+	OPTION \fBexclusion_threshold_snp\fR #
+.br
+	OPTION \fBnumber_parent_progeny_evaluations\fR #
+.br
+	OPTION \fBoutparent_progeny\fR
+.br
+	OPTION \fBexcludeCHR\fR # # ...
+.br
+	OPTION \fBsex_chr\fR #
+.br
+	OPTION \fBthreshold_duplicate_samples\fR #
+.br
+	OPTION \fBhigh_threshold_diagonal_g\fR #
+.br
+	OPTION \fBlow_threshold_diagonal_g\fR #
+.LP
+** Options for Quality Control for off-diagonals **
+.br
+	OPTION \fBthrWarnCorAG\fR #
+.br
+	OPTION \fBthrStopCorAG\fR #
+.br
+	OPTION \fBthrCorAG\fR #
+.LP
+** PCA Options **
+.br
+	OPTION \fBplotpca\fR
+.br
+	OPTION \fBextra_info_pca\fR name_of_file column_#
+.LP
+** Options for LD **
+.br
+	OPTION \fBcalculate_LD\fR
+.br
+	OPTION \fBLD_by_chr\fR
+.br
+	OPTION \fBLD_by_pos\fR #
+.br
+	OPTION \fBfilter_by_LD\fR #
+.br
+	OPTION \fBthr_output_LD\fR #
+.LP
+** Options for Saving/Reading **
+.br
+* Saving *
+.br
+	OPTION \fBsaveAscii\fR
+.br
+	OPTION \fBsaveHinv\fR
+.br
+	OPTION \fBsaveAinv\fR
+.br
+	OPTION \fBsaveHinvOrig\fR
+.br
+	OPTION \fBsaveAinvOrig\fR
+.br
+	OPTION \fBsaveDiagGOrig\fR
+.br
+	OPTION \fBsaveGOrig\fR
+.br
+	OPTION \fBsaveA22Orig\fR
+.br
+	OPTION \fBsaveGimA22iOrig\fR
+.br
+	OPTION \fBsaveGimA22iRen\fR
+.br
+	OPTION \fBreadGimA22i\fR
+.br
+	OPTION \fBsaveA22\fR
+.br
+	OPTION \fBsaveA22Inverse\fR
+.br
+	OPTION \fBsaveG\fR
+.br
+	OPTION \fBsaveGInverse\fR
+.br
+	OPTION \fBsaveGmA22\fR
+.br
+* Reading *
+.br
+	OPTOIN \fBreadGimA22i\fR
+.br
+	OPTION \fBreadOrigID\fR
+.br
+	OPTION \fBreadG\fR
+.br
+	OPTION \fBreadGInverse\fR
+.br
+	OPTION \fBreadA22\fR
+.br
+	OPTION \fBreadA22Inverse\fR
+.br
+	OPTION \fBreadGmA22\fR
+.br
+
+
+
+	
+
+
+
+.SH OPTIONS (Extended)
+** Basic Options **
+.LP
+	OPTION \fBchrinfo\fR name_of_file
+.br
+		Read SNP map information from file. Useful to check for Mendelian conflicts and HWE (with 
+.br
+		OPTION sex_chr).
+.br
+			Format:   Column 1: SNP order
+.br
+						- First line of map file should be the first SNP in the genotype file.
+.br
+					Column 2: Chromosome
+.br
+						- Should be only numbers and starting from 1.
+.br
+					Column 3: Position (bp)
+.br
+	OPTION \fBsaveCleanSNPs\fR
+.br
+		Save clean genotype file excluding bad SNP and animals. Based on user options.
+.br
+		For a genotype file named snp_file:
+.br
+		*_clean files are:
+.br
+			snp_file_clean
+.br
+			snp_file_clean_XrefID
+.br
+		*_removed files are:
+.br
+			snp_file_SNPs_removed
+.br
+			snp_file_Animals_removed
+.br
+	OPTION \fBno_quality_control\fR
+.br
+		No quality control performed. Done if previous QC was performed.
+.br
+	OPTION \fBoutcallrate\fR
+.br
+		Print all call rate information for SNP and Individuals.
+.br
+		Files: callrate (SNP) and callrate_a (individuals) are created
+.br
+	OPTION \fBmaxsnp\fR #
+.br
+		Specifies the maximum length of string for reading marker data from file.
+.br
+		** Default: 400000
+.LP
+** Options for G matrix **
+.LP
+	OPTION \fBwhichG\fR #
+.br
+		Specifies how G is created. "#" can be:
+.br
+			1: G = ZZ'/k as in VanRaden (2008) (default)
+.br
+			2: G = ZDZ'/n where D = 1/2p(1-p) as in Amin et al. (2007) and Leuttenger et al. (2003)
+.br
+			3: Like 2 with modification UAR from Yang et al. (2010)
+.br
+		** Default: 1
+.br
+	OPTION \fBwhichfreq\fR #
+.br
+		Specifies what frequencies are used to \fIcreate\fR G in G = ZDZ'. The same
+.br
+		frequencies are used to center Z and to scale in D. 
+.br
+			"#" can be:
+.br
+				1) read from file freqdata or from other file specifed using "OPTION FreqFile name_of_file"
+.br
+				2) 0.5
+.br
+				3) Current calculated from genotypes (default)
+.br
+		** Default: 3
+.br
+	OPTION \fBwhichfreqScale\fR #
+.br
+		Specifies which frequencies are used to \fIscale\fR G in G = ZDZ'. Use this option if, 
+.br
+		for instance, you want to use 0.5 for centering (OPTION whichfreq) but observed 2pq for
+.br
+		scaling.
+.br
+			"#" can be:
+.br
+				1) read from file using "OPTION FreqFile name_of_file"
+.br
+				2) 0.5
+.br
+				3) Current calculated from genotypes (default)
+.br
+		** Default: 3
+.br
+		KEY: If option whichfreq is used, whichfreqScale will be considered only if it comes
+.br
+			later in the parameter file.
+.br
+	OPTION \fBFreqFile\fR name_of_file
+.br
+		Reads allele frequencies from a file. 
+.br
+		Format:   Column 1: SNP number
+.br
+				Column 2: frequency (same order as in genotype file)
+.br
+	OPTION \fBwhichScale\fR #
+.br
+		Specifies how G is scaled.
+.br
+		"#" can be:
+.br
+			1) 2sum(p(1-p)) as in VanRaden 2008 (default)
+.br
+			2) trace(ZZ')/n as in Legarra 2009 and Hayes 2009
+.br
+			3) correction as in Gianola et al. (2009)
+.br
+		** Default: 1
+.br
+	OPTION \fBweightedG\fR name_of_file
+.br
+		Reads weights from a file to create weighted genomic relationship.
+.br
+		weighting Z* = Z sqrt(D) ==> G = Z*Z*' = ZDZ'.
+.br
+		Format:   Column 1: weights in the same order as the genotyped file
+.br
+			NOTE: Weights can be extracted from postGSf90 output.
+.LP
+** Options for H **
+.LP
+		Options include differnt weights to create GimA22i as:
+.br
+			tau inv(alpha G + beta A22 + gamme I + delta) - omega inv(A22)
+.br
+		where the parameters are to scale the genomic info to be compatible with the pedigree
+.br
+		info, to make matrices invertible in the presence of clones and to control bias.
+.br
+	OPTION \fBTauOmega\fR tau omega
+.br
+		** Defaults: tau = 1 ; omega = 1
+.br
+	OPTION \fBAlphaBeta\fR alpha beta
+.br	
+		** Defaults: alpha = 0.95 ; beta = 0.05
+.br
+	OPTION \fBGammaDelta\fR gamma delta
+.br
+		** Defaults: gamma = 0 ; delta = 0
+.br
+	OPTION \fBtunedG\fR #
+.br
+		Scale G based on A22.
+.br
+		"#" can be:
+.br
+			0) No scaling
+.br
+			1) mean(diag(G)) = 1, mean(offdiag(G)) = 0
+.br
+			2) mean(diag(G)) = mean(diag(A22)), mean(offdiag(G)) = mean(offdiag(A22)) (default)
+.br
+			3) mean(G) = mean(A22)
+.br
+			4) rescale G using Fst adjustment as in Powell et al. (2010) or Vitezica et al. (2011)
+.br
+		** Default: 2
+.br
+.LP
+** Quality Control (QC) Options **
+.LP
+	OPTION \fBminfreq\fR #
+.br
+		Ignores all SNP with MAF less than #.
+.br
+		** Default: 0.05
+.br
+	OPTION \fBcallrate\fR #
+.br
+		Ignores all SNP with call rates less that #. (# of calls/ # of individuals w/ genotypes)
+.br
+		** Default: 0.90
+.br
+	OPTION \fBcallrateAnim\fR #
+.br
+		Ignores all genotypes with call rates less that #. (# of calls/ # of SNPs)
+.br
+		** Default: 0.90
+.br
+	OPTION \fBmonomorphic\fR #
+.br
+		Ignores monomorphic SNPs.
+.br
+		"#" can be:
+.br
+			1) Enable
+.br
+			2) Disable
+.br
+		** Default: 1
+.br
+	OPTION \fBhwe\fR #
+.br
+		Check departure of heterozygous from Hardy-Weinberg Equilibrium.
+.br
+		** Default: 0.15 (if specified, not run without this option)
+.br
+			Optional parameter "#" is set to the maximum difference between observed and expected
+.br
+			frequency.
+.br
+	OPTION \fBhigh_correlation\fR x y
+.br
+		Check for high correlated SNP
+.br
+		** Default: x = 0.025 (if specifed; not run without this option)
+.br
+			Optional parameter "x" sets the maximum difference in allele frequency to check pair of locus.
+.br
+			A pair of locus is considered highly correlated if all genotypes were the same (0-0, 1-1, 2-2) or 
+.br
+			opposite (0-2, 1-1, 2-0) as in Wiggins et al. (2009).
+.br
+		** Default: y = 0.995	
+.br
+			Optional parameter "y" can be used to set a threshold to check number of identical samples
+.br
+			out of the number of genotypes.
+.br
+	OPTION \fBverify_parentage\fR #
+.br
+		Verify parent-progeny Mendelian conflicts.
+.br
+		Report written to Gen_conflicts	
+.br
+			"#" can be:
+.br
+				0) No action taken
+.br
+				1) Only detect
+.br
+				2) Detect and search for alternate parent, no change to file. Now implemented in SeekParentF90 program.
+.br
+				3) Detect and eliminate progenies with conflicts (default)
+.br
+		** Default: 3
+.br
+	OPTION \fBexclusion_threshold\fR #
+.br
+		Number of parent-progeny exclusions as percentage of all SNPs to determine wrong relationship.
+.br
+		** Default: 1
+.br
+	OPTION \fBexclusion_threshold_snp\fR #
+.br
+		Number of parent-progeny exclusions for each locus as a percentage, of pair of genotypes animals
+.br
+		evaluated, to exclude a SNP from the analysis.
+.br
+		** Default: 10
+.br
+	OPTION \fBnumber_parent_progeny_evaluations\fR #
+.br
+		Number of minimum pair of parent-progeny evaluations to exclude SNPs due to parent-progeny
+.br
+		exclusions.
+.br
+		** Default: 100
+.br
+	OPTION \fBoutparent_progeny\fR
+.br
+		Create a full log with all pairs of parent-progeny tested for Mendelian conflicts.
+.br
+		Filename: Gen_conflicts_all
+.br
+	OPTION \fBexcludeCHR\fR n1 n2 n3 ...
+.br
+		Exclude all SNP from chromosomes4 n1 n2 n3 ...
+.br
+		NOTE: Map file is needed! (OPTION chrinfo name_of_file)
+.br
+	OPTION \fBsex_chr\fR #
+.br
+		Chromosome numbers equal or greater than n are not considered autosomes.
+.br
+		If used, sex chromosomes will not be used for checking parent-progeny tested for
+.br
+		Mendelian conflicts and HWE.
+.br
+		NOTE: Map file is needed! (OPTION chrinfo name_of_file)
+.br
+	OPTION \fBthreshold_duplicate_samples\fR #
+.br
+		Set the threshold to issue a warning for possible duplicate samples.
+.br
+			G(i,j) / sqrt(G(i,i) * G(j,j)) > "#"
+.br
+		** Default: 0.90
+.br
+	OPTION \fBhigh_threshold_diagonal_g\fR #
+.br
+		Check to remove individuals with extreme high diagonals in the genomic relationship matrix.
+.br
+		** Default: 1.6
+.br
+	OPTION \fBlow_threshold_diagonal_g\fR #
+.br
+		Check to remove individuals with extreme low diagonals in the genomic relationship matrix.
+.br
+		** Default: 0.7
+.LP
+** Options for Quality Control for off-diagonals **
+.LP
+	OPTION \fBthrWarnCorAG\fR #
+.br
+		Set the threshold to issue a warning if cor(A22, G) < "#"
+.br
+		** Default: 0.5
+.br
+	OPTION \fBthrStopCorAG\fR #
+.br
+		Set the threshold to stop the analysis if cor(A22, G) < "#"
+.br
+		** Default: 0.3
+.br
+	OPTION \fBthrCorAG\fR #
+.br
+		Set the threshold to calculate cor(A22, G) for only A22 >= "#"
+.br
+		** Default: 0.02
+.LP
+** PCA Options **
+.LP
+	OPTION \fBplotpca\fR
+.br
+		Plot first 2 principal components to look for tratification in the population.
+.br
+	OPTION \fBextra_info_pca\fR name_of_file column_#
+.br
+		Reads from a file with column to plot with different colors for different classes.
+.br
+		The file should contain at least one variable with differnt classes for each genotyped individual,
+.br
+		and the order should match the order of the genotype file.
+.br
+		- Variables should be alphanumeric and separated by one or more spaces.
+.LP
+** Options for LD **
+.LP
+	OPTION \fBcalculate_LD\fR
+.br
+		Calculate LD as Rsq
+.br
+	OPTION \fBLD_by_chr\fR
+.br
+		Calculate LD within Chromosome
+.br
+	OPTION \fBLD_by_pos\fR #
+.br
+		Calculate LD within chromosome and windows of SNP based on position optional parameter "#".
+.br
+		Define with windows size in Bp.
+.br
+		** Default: 200000
+.br
+	OPTION \fBfilter_by_LD\fR #
+.br
+		Filter SNP with Rsq > "#".
+.br
+		** Default: 0.8
+.br
+	OPTION \fBthr_output_LD\fR #
+.br
+		Threshold to print out Rsq between pair of SNP.
+.br
+		"#" defines the threshold.
+.br
+		** Default: 0.1
+
+
+
+
+
+
+
+
+
+.SH OUTPUT FILES
+Output files will depend on the options specified for preGSf90.
+.br
+	1) GimA22i
+.br
+		- By default, this file will always be created in binary format for use by
+.br
+			later programs specifiying "OPTION readGimA22i".
+.br
+	2) freqdata.count
+.br
+		- allele frequencies prior to any quality control (QC)
+.br
+		Format:   Column 1: SNP number (related to genotype file)
+.br
+				Column 2: Allele Frequency
+.br
+	3) freqdata.count.after.clean
+.br
+		- allele frequencies used in calculations (after QC)
+.br
+		Format:   Column 1: SNP number (related to genotype file)
+.br
+				Column 2: Allele Frequency
+.br
+				Column 3: Code of exclusion
+.br
+		Codes:
+.br
+			0: Not excluded
+.br
+			1: Call Rate
+.br
+			2: MAF
+.br
+			3: Monomorphic
+.br
+			4: Excluded by user
+.br
+			5: Mendelian error
+.br
+			6: HWE
+.br
+			7: High Correlation with other SNP(s)
+.br
+	4) Gen_call_rate
+.br
+		- list of animals excluded because of a low call rate (too many missing values)
+.br
+	5) Gen_conflicts
+.br
+		- Report of animals with Mendelian conflicts with their parents.
+.br
+	6) Optional files
+.br
+		- This program can store G, G inverse, A22, A22 inverse, etc...			
+
+		
+
+
+
+
+
+.SH SEE ALSO
+postGSf90 for doing GWAS studies.
+
+
+
+.SH BUGS
+Please contact the UGA group for program bugs.
+
+
+
+
+.SH AUTHOR
+Austin Putz (amputz@ncsu.edu) Please contact with mistakes and typos within this man page to improve it.
+
+
+

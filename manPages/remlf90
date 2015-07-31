@@ -1,0 +1,107 @@
+.\" Manpage for remlf90
+.\" Contact amputz@ncsu.edu to correct errors or typos.
+.TH man 10 "2015-03-05" "1.1" "remlf90 man page"
+
+
+
+
+.SH NAME
+\fBremlf90\fR \-\- Restricted (Residual) Maximum Likelihood program for variance component estimation
+
+
+
+
+.SH DESCRIPTION
+Variance component estimation with EM-REML algorithm. Final results will be stored in "REMLF90.log".
+.LP
+	-- See renumf90 man page for help setting up the parameter file
+.br
+		Output as renf90.par
+.LP
+	-- See PREGSF90 with genotypes (SNP) for options.
+
+
+
+
+.SH OPTIONS
+.B OPTION conv_crit 1d-12
+.br
+	Convergence criterion (default 1d-10)
+.br
+.B OPTION maxrounds 10000
+.br
+	Maximum rounds (default 5000). When the number < 2, the program calculates BLUP without iterating REML.
+.br
+.B OPTION use_yams
+.br
+	Run the program with YAMS (modified FSPAK). The computing time can be dramatically improved.
+.br
+.B OPTION sol se
+.br
+	Store solutions and those SE
+.br
+.B OPTION residual
+.br
+	y-hat and residuals will be included in "yhat_residual".
+.br
+.B OPTION missing -999
+.br
+	Specify the missing value (default 0)
+.br
+.B OPTION constant_var 5 1 2
+.br
+	5 = effect number
+.br
+	1 = first trait number
+.br
+	2 = second trait number
+.br
+		implying the covariance between traits 1 and 2 for effect 5
+.br
+.B OPTION SNP_file snp
+.br
+	Specify the SNP file name to use genotype data.
+
+
+
+
+
+
+
+
+
+.SH OUTPUT
+REMLF90.log
+.LP
+SOLUTIONS
+.br
+	Column 1 = Type
+.br
+	Column 2 = Effect
+.br
+	Column 3 = Solution to fixed/random effects	
+
+
+
+
+.SH NOTES
+.BR "Does REMLF90 always converge?"
+.br
+Even when there is no variance, remlf90 will estimate a positive variance (within the parameter space), which will be determined by the starting value. If you are not sure if there is any variance, use a small starting value such as 0.1 or 0.01. If the estimate does not change, probably there is no variance, so check your parameter file, model, and/or data again. If airemlf90 does not converge but remlf90 converges with the same data set and the same model, rerun remlf90 with a small starting value because the estimate could be artifact.
+
+
+
+
+.SH SEE ALSO
+
+
+
+
+.SH BUGS
+Please contact the UGA group for program bugs.
+
+
+
+
+.SH AUTHOR
+Austin Putz (amputz@ncsu.edu) Please contact with mistakes and typos within this man page to improve it.

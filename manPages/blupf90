@@ -1,0 +1,115 @@
+.\" Manpage for blupf90
+.\" Contact amputz@ncsu.edu to correct errors or typos.
+.TH man 1 "2015-03-05" "1.1" "blupf90 man page"
+
+
+
+
+.SH NAME
+\fBblupf90\fR \-\- Calculate solutions.
+
+
+
+
+.SH DESCRIPTION
+BLUP solutions for breeding values can be calculated with predetermined variance components.
+.br
+	Variance components can be obtained using remlf90, airemlf90, or one of the gibbs samplers.
+.LP
+	-- See renumf90 man page for help setting up the parameter file
+.br
+		Output as renf90.par
+.LP
+	-- See PREGSF90 with genotypes (SNP) for options.
+
+
+
+
+.SH OPTIONS
+.B OPTION conv_crit 1e-12
+.br
+	Convergence criterion (default 1e-12)
+.br
+.B OPTION maxrounds 10000
+.br
+	Maximum rounds (default 1000).
+.br
+.B OPTION solv_method FSPAK
+.br
+	Solve solutions by FSPAK, SOR, or PCG. 
+.br
+.B OPTION r_factor 1.6
+.br
+	Set relaxation factor for SOR (default 1.4).
+.br
+.B OPTION missing -999
+.br
+	Specify the missing value (default 0)
+.br
+.B OPTION residual
+.br
+	y-hat and residuals will be included in "yhat_residual".
+.br
+.B OPTION blksize 3
+.br
+	Set block size for preconditioner (default 1).
+.br
+.B OPTION prior_solutions
+.br
+	Using the previous solution file to start the iteration.
+.br
+	An additional software is required to use this option.
+.br
+.B OPTION stdresidual
+.br
+	y-hat and student residual will be included in "yhat_student_residual".
+.br
+.B OPTION check_levels 0
+.br
+	Check levels (default 1 = True).
+.br
+.B OPTION use_yams
+.br
+	Run the program with YAMS (modified FSPAK).
+.br
+.B OPTION SNP_file snp
+.br
+	Specify the SNP file name to use genotype data.
+
+
+
+
+
+
+
+
+
+.SH OUTPUT
+.br
+solutions:
+.br
+	Column:
+.br
+		1) Type
+.br
+		2) Effect
+.br
+		3) Solution to fixed/random effects
+.br
+
+
+
+
+.SH SEE ALSO
+
+
+
+
+.SH BUGS
+Please contact the UGA group for program bugs.
+
+
+
+
+.SH AUTHOR
+Austin Putz (amputz@ncsu.edu) Please contact with mistakes and typos within this man page to improve it.

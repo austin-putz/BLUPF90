@@ -1,0 +1,146 @@
+.\" Manpage for airemlf90
+.\" Contact amputz@ncsu.edu to correct errors or typos.
+.TH man 1 "2015-03-05" "1.1" "airemlf90 man page"
+
+
+
+
+.SH NAME
+\fBairemlf90\fR \-\- Average Information Criterion REML
+
+
+
+
+.SH DESCRIPTION
+Modification of REMLF90 for estimating variances with the Average-information algorithm. Initially written by Shogo Tsuruta in 03/99-07/99.
+.LP
+AIREMLF90 uses a second derivative REML algorithm with extra heuristics, as is described in Jensen et al. (1996-7). For most models, it converges in far fewer rounds than EM-REML as implemented in REMLF90. While typically REMLF90 takes 50-300 rounds ot converge. AIREMLF90 converges in 5-15 rounds and to a higher accuracy. For selected models, AI-REML may fail to converge when the covariance matrix is close to non-positive definite. Adjust sensitivity of the program by setting the appropriate tolerance and setting good starting values. The final results will be saved in "airemlf90.log".
+.LP
+	-- See renumf90 man page for help setting up the parameter file
+.br
+		Output as renf90.par
+.LP
+	-- See preGSf90 with genotypes (SNP) for options.
+
+
+
+
+
+.SH OPTIONS
+OPTION \fBconv_crit\fR 1d-9
+.br
+	Convergence criterion
+.br
+	** Default: 1d-10
+.br
+OPTION \fBmaxrounds\fR #
+.br
+	Maximum rounds. When the number < 2, the program calculates BLUP without iterating REML.
+.br
+	** Default: 5000
+.br
+OPTION \fBEM-REML\fR #
+.br
+	Run EM-REML (REMLF90) for the first "#" rounds to get initial variances within the parameter space (default 0)
+.br
+	** Default: 0
+.br
+OPTION \fBuse_yams\fR 
+.br
+	Run the program with YAMS (Yet Another MME Solver, modified FSPAK). The computing time can be dramatically improved.
+.br
+OPTION \fBtol\fR 1d-12
+.br
+	Tolerance (or precision) for positive definite matrices and g-inverse subroutines.
+.br
+	** Default: 1d-14
+.br
+	- Convergence may be much faster by changing this value.
+.br
+OPTION \fBsol se\fR 
+.br
+	Store solutions and SE's
+.br
+OPTION \fBresidual\fR 
+.br
+	y-hat and residuals will be included in "yhat_residual" file.
+.br
+OPTION \fBmissing\fR #
+.br
+	Specify the missing value
+.br
+	** Default: 0
+.br
+OPTION \fBSNP_file\fR snp
+.br
+	Specify the SNP file name to use genotype data.
+.LP
+Heterogeneous residual variances for a single trait
+.br
+OPTION \fBhetres_pos\fR 10 11
+.br
+	Specify positions (columns) of covariables (trait first)
+.br
+OPTION \fBhetres_pol\fR 4.0 0.1 0.1
+.br
+	Intial values of coefficients for heterogeneous residual variances. Use
+.br
+	ln(a0, a1, a2, ...) to make these values. When teh number of positions = the 
+.br
+	number of polynomials, the regressions do not include the intercept (e.g., linear spline).
+.LP
+Heterogeneous residual variances for multiple traits (the convergence will be very slow)
+.br
+OPTION \fBhetres_pos\fR 10 10 11 11
+.br
+	Specify positions of covariables (trait first).
+.br
+OPTION \fBhetres_pol\fR 4.0 4.0 0.1 0.1 0.01 0.01
+.br
+	Initial values of coefficients for heterogeneous residual variances using ln(a0, a1, a2, ...)
+.br
+	to make these values (trait first). "4.0 4.0" are the intercept for first and second traits.
+.br
+	"0.1 0.1" could be linear and "0.01 0.01" could be quadratic. To transform back to the
+.br
+	original scale, sue exp(a0 + a1*X1 + a2*X2).
+
+
+
+
+
+
+
+
+
+.SH OUTPUT
+airemlf90.log
+.br
+	This will be the output round by round.
+.br
+SOLUTIONS
+.br
+	Column 1 = Type
+.br
+	Column 2 = Effect
+.br
+	Column 3 = Solution to fixed/random effects	
+.br
+	Column 4 = Standard error (if "OPTION sol se" is specified)
+
+
+
+
+.SH SEE ALSO
+
+
+
+
+.SH BUGS
+Please contact the UGA group for program bugs.
+
+
+
+
+.SH AUTHOR
+Austin Putz (amputz@ncsu.edu) Please contact with mistakes and typos within this man page to improve it.

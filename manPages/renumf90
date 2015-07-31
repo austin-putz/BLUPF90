@@ -1,0 +1,1002 @@
+.\" Manpage for RENUMF90
+.\" Contact amputz@ncsu.edu to correct errors or typos.1.TH man 9 "2015-03-05" "1.1" "RENUMF90 man page"
+
+
+
+
+.TH renumf90 1 "2015-03-05" "1.1" "RENUMF90 man page"
+.SH NAME 
+renumf90 \- renumbering program for BLUPF90 family of programs.
+.br
+		-- Takes raw data and pedigree and formats them correctly for the application programs.
+.br
+		-- Now works with SNP info.
+.LP
+Man page created by Austin Putz. Please see the following website to download programs and see
+.br
+documentation used to create this man page.
+.br
+http://nce.ads.uga.edu/wiki/doku.php?id=start
+
+.LP
+Programs created by:
+.br
+Ignacy Misztal, Shogo Tsuruta, and Ignacio Aguilar, University of Georgia (among others as well)
+.br
+August 27, 2001 - March 17, 2011
+
+
+
+
+.SH CONVENTIONS 
+\fBBold\fR      = important key points
+.br
+NOTE:     = important key points
+.br
+\fIUnderline\fR = mostly output files
+.br
+$         = signify linux command line promt
+.br
+>         = signify R console
+
+
+
+
+.SH SEARCHING THIS PAGE
+.PP
+Man pages open in the less program in unix.
+.PP
+Example: I want to find info on the renadd02.ped file that renumf90 output
+.br
+	1) Type:
+.br
+		/renadd 
+.br
+			This will tell less to search for all instances of renadd.
+.br
+		NOTE: Just don't forget the \fB/\fR command to start it.
+.br
+	2) Then hit ENTER
+.br
+	3) Then hit lowercase "n" to cycle through them all 
+.br
+
+
+
+
+
+.SH DESCRIPTION
+\fB**** I would encourage new users to read the chapter "NEW USER" at the bottom of this man page. May save you some time. ****\fR
+.LP
+Basically RENUMF90 writes the true parameter files that are used by the programs. Most examples are examples of 
+.br
+how to write the RENUMF90 parameter file that outputs a parameter file used by programs (\fIrenf90.par\fR).
+.LP
+RENUMF90 is a renumbering program for the BLUPF90 family of programs. It supports multiple traits, different effects per trait, 
+.br
+alphanumeric and numeric fields. The program provides data statistics, performs comprehensive pedigree checking, and supports 
+.br
+unknown parent groups.
+.LP
+It accepts files where fields in data and pedigree files
+.br
+are separated by spaces. The program is still in active development
+.br
+so errors are possible and some features may not work or work incorrectly.
+.LP
+\fBWarnings\fR
+.br
+	- input files (data and pedigree) cannot contain character "#" (it's a comment character).
+.br
+	- missing animals/data have code 0
+.br
+		00 may be treated as a known animal
+.br
+		- This can be altered by adding
+.br
+			OPTION missing -999
+.br
+				to change the default missing to -999 for application programs (although renumf90 usually doesn't catch it)
+.br
+			NOTE: This is not used by renumf90, it is used by application programs so it
+.br
+					is simply passed to renf90.par
+
+
+
+
+.SH STRUCTURE OF PARAMETER FILE
+The parameter file contains keywords in capital followed by specifications of a given effect/data item.
+.LP
+\fB**** Keywords need to be typed exactly and IN ORDER ****\fR 
+.br
+	-- Order of KEYWORDS are shown below.
+.LP
+Anything after "#" are treated as comments (ignored)
+.br
+	-- it's good to get in a habit of commenting out what effects you are adding to your parameter file
+
+
+.SH QUICK REFERECE
+	Please use this section as a quick reference for keywords.
+.br
+.BR DATAFILE
+.BR TRAITS
+.BR "FIELDS_PASSED TO OUTPUT"
+
+.SH FIELDS OF PARAMETER FILE
+.BR DATAFILE
+.br
+f1
+.br
+	f1 = data file	
+.br
+.BR TRAITS
+.br
+t1 t2 .. tn
+.br
+	t1-tn = positions (columns) of traits in datafile 
+.br
+	    n = number of traits
+.br
+.BR "FIELDS_PASSED TO OUTPUT"
+.br
+p1 p2 ... pm
+.br
+	p1 p2 ... pm = passed to output without changes
+.br
+	-- can be empty
+.br
+		Will be needed if you plan on looking at specific animals/effects
+.br
+		and finding them in the solutions.
+.br
+.BR "WEIGHT(S)"
+.br
+w
+.br
+	w = position (column) of weights if present
+.br
+	-- NOTE: \fBleave a blank line if no weight is given!\fR
+.br
+.BR RESIDUAL_VARIANCE
+.br
+r
+.br
+	r = matrix of residual (co)variances  of size \fBn x n\fR
+.br
+.BR EFFECT
+.br
+e1 e2 ... en type form
+.br
+	e1 e2 ... en = positions (columns) of this effect for all traits 
+.br
+	type: 
+.br
+		\fB'cross'\fR = crossclassified
+.br
+		\fB'cov'\fR   = covariables
+.br
+	form:
+.br
+		\fB'alpha'\fR = alphanumeric
+.br
+		\fB'numer'\fR = numeric
+.br
+	This line defines one group of effects
+.br
+	\fBNOTE:\fR Can be repeated as many times as needed
+.br
+	\fBPositions can be different\fR for each trait for fixed effects
+.br 
+		for example
+.br 
+			5 0 cross alpha
+.br 
+		to specify column 5 as an effect for
+.br 
+		the first trait (response) but not the second trait.
+.br
+	for random effects, only one position + 0 (missing) effect are possible.
+.br
+.BR NESTED
+.br
+d1 .. dn form
+.br
+	form:
+.br
+		\fB'alpha'\fR = alphanumeric
+.br
+		\fB'numer'\fR = numeric
+.br
+	optional for covariables only, specifies nesting
+.br
+.BR RANDOM
+.br
+rtype
+.br
+	rtype: 
+.br
+		\fB'animal'\fR   = typical animal model
+.br
+		\fB'diagonal'\fR = uncorrelated (e.g. Permanent Environment) 
+.br
+		\fB'sire'\fR     = sire model (check to see if sire is implemented yet) 
+.br
+ 	the RANDOM keyword occurs only if the current effect is random
+.br
+		Example:
+.br
+			EFFECT
+.br
+			2 2 cross alpha
+.br
+			RANDOM
+.br
+			animal
+.br
+		NOTE: The RANDOM statement must occur directly after the EFFECT keyword.
+.br
+			This example shows that effect 2 (column 2) is
+.br
+			the random animal effect. For permanent environment
+.br
+			you would specify the same only with "diagonal" instead of 
+.br
+			"animal". After you specify the FILE and (C0)VARIANCES for
+.br
+			the animal effect you would repeat the EFFECT and RANDOM
+.br
+			lines, sub in "diagonal", and don't add a FILE or (CO)VARIANCE
+.br
+			because it's diagonal (uncorrelated).  
+.br
+		Example:
+.br
+			EFFECT
+.br
+			2 2 cross alpha
+.br
+			RANDOM
+.br
+			diagonal
+.br
+.BR OPTIONAL 
+.br
+o1 o2 o3
+.br
+	o:
+.br
+		\fB'pe'\fR  = permanent environment
+.br
+		\fB'mat'\fR = maternal
+.br
+			NOTE: Phantom dams will be provided if not dam is available
+.br
+		\fB'mpe'\fR = maternal permanent environment
+.br
+	causes extra effects appended to the animal effect
+.br 
+.BR FILE
+.br
+fped
+.br
+ 	fped = pedigree file
+.br
+		for animal and sire model only
+.br
+	Columns:
+.br
+		\fB1)\fR Animal ID
+.br
+		\fB2)\fR Sire ID
+.br
+		\fB3)\fR Dam ID
+.br
+		\fB4)\fR Alternate Dam
+.br
+		\fB5)\fR Year of Birth
+.br
+	Columns 4 and 5 (nurse dam or year of birth) must be specified
+.br
+	with FILE_POS because of the default settings!
+.br
+.BR FILE_POS
+.br
+an s d alt_dam yob
+.br
+	specifies positions (columns) in the pedigree file of animal
+.br
+		\fB'an'\fR      = animal
+.br
+		\fB's'\fR       = sire
+.br
+		\fB'd'\fR       = dam
+.br
+		\fB'alt_dam'\fR = nurse dam
+.br
+		\fB'yob'\fR     = year of birth
+.br
+	for animal effect only
+.br
+	defaults are 1 2 3 0 0 
+.br
+	alt_dam or yob can be replaced by 0 
+.br
+		If maternal effect is specified, the maternal effect is due to
+.br
+		position of d if alt_dam field is 0, or otherwise is due to alt_dam. 
+.br
+		If alt_dam field is not zero, it should include ID of real or recipient dam.
+.br
+	Very common to have "animal sire dam yob"
+.br
+		This would make it:
+.br
+			1 2 3 0 4
+.br
+.BR SNP_FILE
+.br
+fsnp
+.br
+	fsnp = file with ID and SNP information 
+.br
+	OPTIONAL
+.br
+	the relationship matrix will be constructed as in Aguilar et al. (2010) 
+.br
+	and will include the genomic information 
+.br
+	fsnp should start with ID with the same format as fped and SNP info needs to 
+.br
+	\fBstart\fR from a \fBfixed column\fR and include \fBdigits 0, 1, 2 and 5\fR 
+.br
+	ID and SNP info need to be separated by at least one space
+.br
+		NOTE: However, SNPs should have NO spaces between them!
+.br
+		see info for program PreGSf90
+.br
+.BR PED_DEPTH
+.br
+p
+.br
+	p = depth of pedigree search (default 3)
+.br
+	OPTIONAL
+.br
+		animal effect only 
+.br
+		all pedigrees are loaded if p=0
+.br
+.BR GEN_INT
+.br
+min avg max
+.br
+	specifies minimum, average and maximum generation interval
+.br
+	OPTIONAL
+.br
+	applicable only if year of birth present 
+.br
+	minimum and maximum used for pedigree checks 
+.br
+	average used to predict year of birth of parent with missing pedigree
+.br
+.BR REC_SEX
+.br
+i
+.br
+	specifies which parent only has records (e.g. No Bulls with milk records) 
+.br
+		-- used for pedigree checks
+.br
+	OPTIONAL
+.br
+.BR UPG_TYPE
+.br
+t
+.br
+	t:
+.br
+		\fB'yob'\fR = the asignment is based on year of birth 
+.br
+			the subsequent line should contain list of years to separate different UPG
+.br
+		\fB'in_pedigrees'\fR = the value of a missing parent should be -x, where x is
+.br
+			UPG number that this missing parent should be allocated to 
+.br
+			in this option, all known parents should have pedigree lines, i.e., each parent field should
+.br
+			contain either the ID of a real parent, or a negative UPG number.
+.br
+		\fB'internal'\fR = allocation is by a user-written function
+.br
+			custom_upg(year_of_birth,sex,ID, parent_code).
+.br
+	OPTIONAL
+.br
+.BR RANDOM_REGRESSION
+.br
+r_type
+.br
+	\fB**** NOT YET IMPLEMENTED ****\fR
+.br
+	Specifies that random regressions should be applied to the animal and corresponding effects (mat, pe and mpe), 
+.br
+	this keyword also could be applied to set covariables for fixed effects
+.br
+	\fB'data'\fR     = if covariables for random regressions are in the data, or 
+.br
+	\fB'legendre'\fR = if legendre plynomials are to be generated from a single data variable
+.br
+.BR RR_POSITION
+.br
+r1 .. rq
+.br
+	\fB**** NOT YET IMPLEMENTED ****\fR
+.br
+	for random regressions 
+.br
+		r_type = \fB'data'\fR then:
+.br
+			\fBr1-rq\fR specifies positions of covariables if 
+.br
+		r_type = \fB'legendre'\fR then:
+.br
+			\fBr1\fR is order of legendre polynomial and \fBr2\fR is position of covariable if
+.br
+.BR "(CO)VARIANCES"
+.br
+g
+.br
+	g = symmetric matrix of variance/covariances for random effects
+.br
+		for animal effects, the dimensions should account for maternal effect if present
+.br
+			-- a 2 trait model with maternal effects will result in a 4 X 4 covariance matrix
+.br
+				because they are correlated
+.br
+				-- 2 direct genetic and 2 maternal genetic
+.br
+	NOTE: Any covariances set to 0 will be FIXED to 0. 
+.br
+.BR "(CO)VARIANCES_PE"
+.br
+gpe
+.br
+	gpe = symmetric matrix of variances/covariances for direct permanent environment
+.br
+.BR "(CO)VARIANCES_MPE"
+.br
+gmpe
+.br
+	gmpe = symmetric matrix of variances/covariances for maternal permanent environment
+
+
+
+
+.SH COMBINING FIELDS
+.br
+\fBCOMBINE\fR a b c ....
+.br
+	Several fields in the data file can be combined into one using a COMBINE keyword.
+.br
+		This will catenate columns b and c into field a. 
+.br
+	Keywords COMBINE need to be on top of the parameter file, but possibly after comments. 
+.br
+		For example:
+.br
+			COMBINE 7 2 3 4
+.br
+				will combine fields 2 3 and 4 into field 7
+.br
+				The data file will not be changed. Instead it treats 2 3 and 4 put together as field 7.
+.br
+				The combined fields can be treated as "numeric", if they are composed of numbers 
+.br 
+				and if their total length is <9. Otherwise, they need to be used as "alpha".  
+.br 
+				Please note that the maximum size of the combined variable is limited by the largest 
+.br
+				size of the "alpha" field.
+
+
+
+
+.SH OPTIONS
+The end of the parameter file for RENUMF90 can contain many lines beginning with OPTION.
+.LP
+	\fB**** Any OPTION lines that are not included here (these 3) are passed to parameter
+.br
+	file renf90.par to be used by application programs ****\fR
+.br 
+.LP
+The following options can added at the end of the parameter file to redefine
+.br
+parameter used to read the input file:
+.LP
+.BR OPTION 
+alpha_size nn
+.br
+	nn = new size.
+.br
+		size of character fields (columns)
+.br
+		default = 20
+.br
+.BR OPTION 
+max_string_readline nn
+.br
+	nn = new size.
+.br
+		the maximum of charcters in one line 
+.br
+		default = 800
+.br
+.BR OPTION 
+max_field_readline nn
+.br
+	nn = number of fields.
+.br
+		maximum number of fields (columns)
+.br
+		default = 100
+.LP
+Any other OPTION lines will be automatically be passed on to \fIrenf90.par\fR for 
+.br
+application programs. (as stated above) 
+
+
+
+
+.SH NOTES
+Sections starting from EFFECTS can be repeated any number of types.
+.br
+\fBIf (Co)variances for any effect are missing, they are substituted with matrices 
+.br
+containing 1.0 on diagonals and 0.1 on off-diagonals.\fR
+.LP
+.BR "Warning:"
+for variance estimation by EM REML,usually there is improved
+.br
+convergence rate if the starting values for (co)variances are too large
+.br
+than too small.
+.LP
+The sequence of keywords should be as above although optional fields can be
+.br
+skipped. Keywords out of order may not be recognized.
+
+
+
+
+.SH EXAMPLES
+data file -- data.text
+.br
+-----------------------
+.br
+farm animal_ID trait_1 trait_2 covariable nested_cov
+.br
+-----------------------
+.br
+1 aa 34.5 11 12 zz
+.br
+3 bb 21.333 22 23 xx
+.br
+8 cc 23.666 33 34 yy
+.br
+1 dd 29 44 45 xx 
+.br
+3 aa 30 55 56 yy
+.br
+5 bb 1234567.890 66 67 zz
+.LP
+pedigree file -- test.ped
+.br
+-----------------------
+.br
+animal sire dam
+.br
+-----------------------
+.br
+qq 0 0
+.br
+aa 0 0
+.br
+bb qq aa
+.br
+cc qq 0
+.br
+dd 0 aa
+.LP
+Parameter file for RENUMF90, NOT the application programs!
+.br
+	Application programs will spit at you if you try to enter
+.br
+	this as it's parameter file.
+.br
+-----------------------
+.br
+DATAFILE
+.br
+data.test
+.br
+TRAITS                        # Specify 2 trait model
+.br
+3 4                           # Responses are in column 3 and 4 from data.text
+.br
+FIELDS_PASSED TO OUTPUT       # will be passed through the program with original labels
+.br
+2 1                           # original animal_ID and farm from data.text
+.br
+WEIGHT(S)
+.br
+                              # remember to leave a blank space
+.br
+RESIDUAL_VARIANCE             # R structure
+.br
+5 2                           # Doesn't really matter if running AI/REMLF90
+.br
+2 4
+.br
+EFFECT                        # farm effect (column 1) is fixed
+.br
+1 1 cross alpha
+.br
+EFFECT
+.br
+2 2 cross alpha
+.br
+RANDOM                        # animal effect (column 2) is random
+.br
+animal
+.br
+OPTIONAL                      # add maternal effects with maternal permanent environment
+.br
+mat mpe pe                    # permanent environment of the animal itself
+.br
+FILE
+.br
+test.ped                      # name of pedigree file (animal_ID sire_ID dam_ID is default)
+.br
+(CO)VARIANCES                 # G structure
+.br
+10 3 2 1                      # first 2 diagonal are animal and next 2 are maternal 
+.br
+3 11 4 5                      # for trait 1 and 2 respectively
+.br
+2 4 12 6
+.br
+1 5 6 13.01
+.br
+(CO)VARIANCES_PE              # covariance for animal permanent environment
+.br
+5.3 2.1
+.br
+2.1 4.85
+.br
+(CO)VARIANCES_MPE             # covariance for maternal permanent environment
+.br
+1.03 0.27
+.br
+0.27 0.85
+.br
+EFFECT
+.br
+5 0 cov
+.br
+NESTED                        # effect 1 is nested within effect 5 for trait 1
+.br
+1 0 alpha                     # notice it's only specified for trait 1 (column 3)
+.br
+EFFECT
+.br
+6 6 cross alpha
+.br
+RANDOM
+.br
+diagonal
+
+
+
+
+.SH OUTPUT
+RENUMF90 will typically output 4 files:
+.br
+	1) renaddxx.ped
+.br
+		This file is your new pedigree file for application programs. It will be listed in renf90.par as the pedigree file.
+.br
+			The "xx" will be something like "02" or "05".   
+.br
+	2) renf90.tables
+.br
+		This file will contain your original labels for each effect and the recoded ID number created by RENUMF90.
+.br
+	3) renf90.dat
+.br
+		This is your new data file. Any fields passed to output will be appended to the last column and added on.
+.br
+	4) renf90.par
+.br
+		This is your new parameter file for application programs. You will enter \fTrenf90.par\fR for the parameter file
+.br
+		after running RENUMF90 to create it. 
+.br 
+		Example 1:  $./remlf90 <<< renf90.par
+.br
+		Example 2:  $./airemlf90 <<< renf90.par
+.br
+		Example 3:  $./gibbs2f90 <<< renf90.par
+.br
+			NOTE: All use the same output parameter file from \fTrenumf90\fR
+.LP
+\fIrenaddxx.par\fR
+.br
+	Column:
+.br
+		1) Renumbered animal number (starting at 1)
+.br
+		2) Parent 1 number OR unknown parent group number for parent 1
+.br
+		3) Parent 2 number OR unknown parent group number for parent 2 
+.br
+		4) 3 - (number of known parents)
+.br
+		5) Known or estimated year of birth (0 if not provided)
+.br
+		6) Number of known parents (parents might be eliminated if not contibuting
+.br
+				10 + (number of known parents) if the animal has a genotype
+.br
+		7) Number of records
+.br
+		8) Number of progenies (before elimination due to other effects) as parent 1
+.br
+		9) Number of progenies (before elimination due to other effects) as parent 2 
+.br
+		10) original animal ID
+.LP
+\fIrenf90.tables\fR
+.br
+		Output is by group (effect)
+.br
+	Column:
+.br
+		1) original alphanumeric label
+.br
+		2) counts
+.br
+		3) renumbered ID (label), starting at 1 
+.LP
+\fIrenf90.dat\fR
+.br
+		New data file renumbered
+.br
+	General format:
+.br
+		1) Responses
+.br
+		2) Fixed effects
+.br
+		3) Random effects
+.br
+		4) Fields passed to output
+.LP
+\fIrenf90.par\fR
+.br
+		New parameter file for application programs
+.br
+	NOTE: The numbers under the RANDOM_GROUP keyword will refer to the "row" 
+.br
+		in the list under the EFFECT keyword, has nothing to do with any of the 
+.br 
+		numbers listed under EFFECTS. So if there are 4 effects listed
+.br
+		under EFFECTS, and the last 2 are random, you will see "3" and "4" under
+.br
+		the RANDOM_GROUP keyword, maybe together (if direct and maternal) or
+.br
+		separate under 2 different RANDOM_GROUP statements.	
+
+
+
+.SH NEW USERS
+.PP
+This section is for new users. It should get you off to a good start. 
+.LP
+Here is how the UGA programs work.
+.br
+	These programs are driven by parameter files (basically giving it "directions"). KEYWORDS
+.br 
+	are provided so the program knows what you are entering. There are 2 types of parameter files.
+.br 
+	The first and most common is the RENUMF90 parameter files. The second are the application 
+.br 
+	programs parameter files. These are generally never written by hand, users will just
+.br 
+	modify the \fIrenf90.par\fR file, which is output parameter file from the RENUMF90 program. 
+.br
+	RENUMF90 is a pre-processor that is used to correctly format the data and pedigree and 
+.br
+	do checks for both. RENUMF90 outputs the 4 files listed above. The new data file (\fIrenf90.dat\fR) 
+.br	
+	and pedigree file (\fIrenaddxx.ped\fR) are now the input files for \fIrenf90.par\fR. 
+.LP
+	Parameter files are simple space delimited text files.
+.br
+		-- I prefer to use vim, but they can be written in your choice of text editors. (notepad, nano, emacs)
+.LP
+	The following are unix commands to run the programs (the $ is to signify you are in Linux/Unix). 
+.LP
+		1) type the program name (if the program is not found, your UNIX machine is not 
+.br
+			searching the directory to find it, look up how to add it to your PATH or ask your
+.br			
+			system administrator)
+.br
+				$renumf90
+.br
+			NOTE: It will ask for your parameter file. Type the name of your file.
+.br
+				$renum.par
+.LP 
+		2) call the program and use "<<<" to add a parameter file and then
+.br 
+			redirect the output to the file \fIrenum.output\fR.
+.br 
+				$renumf90 <<< renum.par > renum.output
+.LP 
+		3) echo (print to standard output) the parameter file and pipe it to the program
+.br 
+			followed by a tee to save the output.
+.br
+				$echo renum.par | renumf90 | tee renum.output
+.br
+			NOTE: tee allows you to see the output while simultaneously saving it to a file.
+.br
+				  to a file (\fIrenum.output\fR)
+
+.LP
+KEYS:
+.br
+	\fB1)\fR All files are space delimited. Does not recognize tabs!
+.br
+		NOTE: This means that you better not have any spaces within a column 
+.br
+			e.g. you have "farm 1" not "farm_1" 
+.LP
+	\fB2)\fR Make sure missing values are 0 (and you do NOT have any ligitimate 0 values in your data set).
+.br
+		i.e. You have sex = 0 = female
+.br
+		Solution: Set the OPTION missing XXX for application programs (check to make sure)
+.LP
+	\fB3)\fR Make sure data file and pedigree file are in the same directory (folder).
+.LP
+	\fB4)\fR Check to make sure KEYWORDS are in the correct order. 
+.LP
+	\fB5)\fR Files CANNOT have a header!
+.br
+		This is often forgotten because we typically output files with headers for other programs
+.br
+		like excel, R, Python, SAS (I guess...)
+.br
+		Solution: Make a "header" file by removing that first row and numbering it
+.br
+			Unix commands:
+.br
+				1) Extract the first row with:
+.br
+					$ sed '1!d' my.datafile > column.headings
+.br
+				2) Put each column heading on own row
+.br
+					$ cat column.headings | tr -c a-zA-Z "\n" > column.rows
+.br
+				3) Number each line (row)
+.br
+					$ nl -ba -w 1 -s ' ' column.rows > header
+.br
+				4) Look at your nice new header file
+.br
+					$ cat header
+.br
+			Now you have a header file so you know the column names to specify positions!!
+.LP
+	\fB6)\fR Make sure you do not have any other hidden characters. 
+.br
+		DOS files may contain ^M characters for End of Line and other things
+.br
+		may be causing the program to not read the files.  
+.br
+			Best thing to use is dos2unix in linux, mac users don't have this command. 
+.LP
+	\fB7)\fR \fBCHECK SPELLING\fR
+.br
+		Many times files and KEYWORDS are simply misspelled. 
+.br
+		NOTE: Currently I'm trying to develop syntax highlighting designed specifically
+.br
+				for the vim text editor. This should eliminate this problem.
+.br
+			Stay updated or send me an email (amputz@ncsu.edu)
+.LP
+	\fB8)\fR Always check the output files to make sure everything was read properly.
+.br
+		Especially the \fIrenf90.tables\fR file to make sure you have the correct
+.br
+			number of levels at least.
+.br
+		Lots of information is provided and it should not be glossed over!
+.br
+			Take a look at the means and sd's, the pedigree checks, the positions
+.br
+			in the pedigree file, the name of the data/pedigree files, 
+.LP
+	\fB9)\fR Remove dupicates in Pedigree file. 
+.br 
+		Simplest thing to do is use the uniq program in unix, however this will be
+.br
+		incorrect if there is simply extra spaces at the end of one repeated line
+.br
+		and not the other.
+.br
+			Best to import to R and use the following code.
+.br
+				> unique(pedigree)
+.br
+				> pedigree[!duplicated(pedigree),]
+.br
+			Will produce the same result and not be affected by spaces and other weird
+.br
+			things. Hopefully.. (It's very important to double check pedigrees)
+.LP
+	\fB10)\fR Add one blank line to the end of the parameter file.
+.LP
+	\fB11)\fR Easiest to subset the columns of your data set to only what you will
+.br
+		use in the analysis. Makes it easier to work with.
+.LP
+	\fB12)\fR Remove missing traits from data files.
+.br
+		You cannot have animals with missing records for all traits.
+.br
+			-- This means that in a 1 trait analysis none of the values in that column
+.br
+			can be 0. 
+.br
+			-- For 2 trait analyses, 1 out of the 2 traits can be missing, but
+.br
+			not both!
+.br
+		Solution: Subset each data set using awk or your program of choice.
+.br
+			Example remove missing values (coded as 0) in column 5, the response:
+.br
+				$ awk '$5 != 0 { print }' data.file
+
+
+
+
+.SH SEE ALSO
+
+
+
+
+.SH BUGS
+IDs starting with "-" may not work.
+.LP
+Please contact the UGA group for program bugs.
+
+
+
+
+.SH AUTHOR
+Austin Putz (amputz@ncsu.edu) Please contact with mistakes and typos within this man page to improve it.
+
+

@@ -1,0 +1,133 @@
+.\" Manpage for gibbs2f90
+.\" Contact amputz@ncsu.edu to correct errors or typos.
+.TH man 1 "2015-03-05" "1.1" "gibbs2f90 man page"
+
+
+
+
+.SH NAME
+\fBgibbs2f90\fR \-\- gibbs sampler to sample correlated effects jointly 
+
+
+
+
+.SH DESCRIPTION
+gibbs2f90 is a modification of gibbs1f90 to sample correlated effects jointly. This modification 
+.br
+results in better mixing for models with correlated effects such as maternal or random-regression 
+.br
+models. Memory requirements and CPU time per round are somewhat higher than in gibbs1f90.
+.LP
+	-- See renumf90 man page for help setting up the parameter file
+.br
+		Output as renf90.par
+.LP
+	-- See PREGSF90 with genotypes (SNP) for options.
+
+
+
+
+.SH BASICS
+Make sure that there is at least 1 non-missing value in the traits.
+.br
+	So if you have a 3 trait model, at least 1 of the traits much be non-zero (or whatever your
+.br
+		missing value is set as.
+.br
+	If you are running a single trait with 0's in that column, gibbs will stop.
+.br
+Set the number of samples and length of burn-in
+.br
+	This becomes a bit of an art. If it's the first run, guess 10000 samples and 0 for a burn-in.
+.br
+		Several runs may be desired to figure out the convergence.
+.br
+Give n to store every n-th sample.
+.br
+	Gibbs samples are usually highly correlated, so you do not have to keep all samples. 
+.br
+		Maybe every 10th, 20th, 50th.
+.br
+Run postgibbsf90 to check convergence and to calculate posterior means and SD.  
+
+
+
+
+
+.SH OPTIONS
+.B OPTION fixed_var all 1 2 3
+.br
+	All solutions and posterior means and SD for effects 1, 2, and 3 are stored in 
+.br
+	"all_solutions" and in "final_solutions" every round using fixed variances. 
+.br
+	Without numbers, all solutions for all effects are stored.
+.br
+.B OPTION fixed_var mean 1 2 3
+.br
+	Posterior means and SD for effects 1, 2, and 3 stored in "final_solutions".
+.br
+.B OPTIONS solutions all 1 2 3
+.br
+	All solutions and posterior means and SD for effects 1, 2, and 3 are stored in
+.br
+	"all_solutions" and in "final_solutions" every round. 
+.br
+	Without numbers, all solutions for all effects are stored.
+.br
+.B OPTION solution mean 1 2 3
+.br
+	Posterior means and SD for effects 1, 2, and 3 stored in "final_solutions".
+.br
+.B OPTION cont 10000
+.br
+	10000 is the number of samples run previously when restarting the program from the last run.
+.br
+.B OPTION prior eff1 db1 eff2 db2 ... effn dbn -1 dbres
+.br
+	effx = effect number
+.br
+	dbx  = degree of belief for that random effect
+.br
+	NOTE: -1 = residual variance
+.br
+	The (co)variance priors are specified in the parameter file.
+.br
+	Degree of belief for all random effects should be specified using the following structure:
+.br
+		OPTION prior 5 2 -1 5  
+.br
+			In this example 2 is the degree of belief for the 5th effect, and 5 is the degree
+.br
+				of belief for the residual.
+.br
+.B OPTION seed 123 321
+.br
+	Two seeds for a random number generator can be specified.
+.br
+.B OPTION SNP_file snp
+.br
+	Specify the SNP file name to use genotype data.
+
+
+
+
+.SH OUTPUT
+
+
+
+
+
+.SH SEE ALSO
+
+
+
+
+.SH BUGS
+Please contact the UGA group for program bugs.
+
+
+
+
+.SH AUTHOR
+Austin Putz (amputz@ncsu.edu) Please contact with mistakes and typos within this man page to improve it.

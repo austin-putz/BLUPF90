@@ -1,0 +1,351 @@
+.\" Manpage for postGSf90
+.\" Contact amputz@ncsu.edu to correct errors or typos.
+.TH man 1 "2015-03-05" "1.0" "postGSf90 man page"
+
+
+
+
+.SH NAME
+\fBpostGSf90\fR \-\-  GWAS analysis for finding SNP weights.
+
+
+
+
+.SH DESCRIPTION
+postGSf90 is used for GWAS analyses in the BLUPF90 family of programs.
+.br
+	-- Written by Ignacio Aguilar (iaguilar@inia.org.uy)
+.LP
+This program helps to implement the genomic selection following the single-step methodology as presented by Aguilar et al. (2010) JDS.
+.br
+	- In this methodology, the relationship matrix A based on pedigree information is replaced by matrix H, 
+.br
+		which combines pedigree and genomic information.
+.LP
+	-- See renumf90 man page for help setting up the parameter file
+.br
+		Output's renf90.par, which is the parameter file needed for preGSf90 (and other BLUPF90 programs)
+.br
+			-- Main difference is adding the SNP_FILE option.
+.br
+				This will have renumf90 create a yoursnpfilename_XrefID.
+.br
+					This file relates renumbered ID's to original ID's in the order of the snp file. 
+.br
+			NOTE: "SNP_FILE" goes on it's own line for RENUMF90. This is then converted to
+.br
+					"OPTION SNP_file name_of_snp_file" in the output file renf90.par.
+
+
+
+
+.SH INPUT FILES
+1) Parameter file
+.br
+	renf90.par that was created by RENUMF90 with SNP_FILE keyword and name of the file below.
+.LP
+2) Genotype file
+.br
+	Format:   Column 1 = animal ID
+.br
+			Column 2 = genotype with 0, 1, 2, and 5 for missing values
+.br
+				Real values for gene content are possible (e.g. 0.12 0.11 etc...)
+.br
+	KEY: Make sure all genotypes (SNPs) start at the same column (character #) in the SNP file.
+.br
+		Example:
+.br
+			52     20100110110202102
+.br
+			701    12012010222101201
+.br
+			1005   12010210021020201
+.LP
+3) Renumbered ID for genotypes.
+.br
+	This file is written by RENUMF90. 
+.br
+		name_of_snp_file_XrefID	is output.
+.LP
+4) Optional files
+.br
+	i) OPTION FreqFile
+.br
+		- Allele frequencies specified by user
+.br
+	ii) OPTION chrinfo
+.br
+		- Map file for identifying snps
+.br
+	iii) OPTION weightedG
+.br
+		- Weight file
+.br
+	iv) G or it's inverse, A22 or it's inverse, etc...
+
+
+
+
+.SH OPTIONS (Quick)
+.br
+OPTION \fBManhattan_plot\fR
+.br
+OPTION \fBManhattan_plot_R\fR
+.br
+OPTION \fBManhattan_plot_R_format\fR format
+.br
+OPTION \fBplotsnp\fR #
+.br
+OPTION \fBSNP_moving_average\fR #
+.br
+OPTION \fBwindows_variance\fR #
+.br
+OPTION \fBwindows_variance_mbp\fR #
+.br
+OPTION \fBwhich_weight\fR #
+.br
+OPTION \fBsolutions_postGS\fR name_of_file
+.br
+OPTION \fBpostgs_trt_eff\fR x1 x2
+.br
+
+
+
+
+.SH OPTIONS (Extended)
+.br
+OPTION \fBManhattan_plot\fR
+.br
+	Plot using GNUPLOT the Manhattan plot (SNP effects) for each trait and correlated effect.
+.br
+OPTION \fBManhattan_plot_R\fR
+.br
+	Manhattan plot using R (SNP Effects) for each trait and correlated effect.
+.br
+	pdf images are created: manplot_St1e2.pdf, but otehr formats can be specified.
+.br
+		NOTE: t1e2 corresponds to trait 1, effect 2.
+.br
+OPTION \fBManhattan_plot_R_format\fR format
+.br
+	Control the format type to create images in R.
+.br
+	Formats accepted:
+.br
+		pdf (default)
+.br
+		png
+.br
+		tif
+.br
+OPTION \fBplotsnp\fR #
+.br
+	Control the values of SNP effects to use in Manhattan plots
+.br
+		1) Plot regular SNP effects: abs(val)
+.br
+		2) Plot standardized SNP effects: abs(val/sd) (default)
+.br
+OPTION \fBSNP_moving_average\fR #
+.br
+	Solutions for SNP effects will be by moving average of n adjacent SNPs
+.br
+OPTION \fBwindows_variance\fR #
+.br
+	Calculate the variance explained by n adjacent SNPs
+.br
+OPTION \fBwindows_variance_mbp\fR #
+.br
+	Calculate the variacne explained by n Mb window of adjacent SNPs
+.br
+OPTION \fBwhich_weight\fR #
+.br
+	Generate a weight variable to be used in the creation of a weighted genomic relationship matrix G = ZDZ'.
+.br
+	"#" can be:
+.br
+		1) w = y^2 * (2(p(1-p)))
+.br
+		2) w = y^2
+.br
+OPTION \fBsolutions_postGS\fR name_of_file
+.br
+	Set the file name for the solutions file.
+.br
+	** Default: solutions
+.br
+OPTION \fBpostgs_trt_eff\fR x1 x2
+.br
+	Computes postGS calculations (SNP solutions, variance explained, etc) for only trait: x1 and effect: x2
+.br
+
+
+
+
+
+
+
+
+
+.SH OUTPUT FILES
+Output files will depend on the options specified for preGSf90.
+.LP
+1) \fBsnp_sol\fR
+.br
+	Contains solutions of SNP and weights
+.br
+	Columns:
+.br
+		1) Trait
+.br
+		2) Effect
+.br
+		3) SNP
+.br
+		4) Chromosome
+.br
+		5) Position
+.br
+		6) SNP Solution
+.br
+		7) Weight
+.br
+		8) Variance explained by n adjacent SNPs (if OPTION windows_variance is used)
+.LP
+2) \fBchrsnp\fR
+.br
+	Contains data to create plot by GNUPLOT
+.br
+	Columns:
+.br
+		1) Trait
+.br
+		2) Effect
+.br
+		3) Values of SNP effects to use in Manhatttan plots
+.br
+		4) SNP
+.br
+		5) Chromosome
+.br
+		6) Position
+.LP
+3) \fBchrsnpvar\fR
+.br
+	Contains data to create plot by GNUPLOT
+.br
+	Columns:
+.br
+		1) Trait
+.br
+		2) Effect
+.br
+		3) Variance explained by n adjacent SNPs
+.br
+		4) SNP
+.br
+		5) Chromosome
+.br
+		6) Position
+.LP
+4) \fBwindows_segment\fR
+.br
+	Columns:
+.br
+		1) Label
+.br
+		2) Window size (number of SNP)
+.br
+		3) Start SNP number for the window
+.br
+		4) End SNP number for the window
+.br
+		5) Identification of window: (ChrNumber)'_'(startPositionMBP)
+.br
+		6) Start (ChrNumber)'_'(Position) for the window
+.br
+		7) End (ChrNumber)'_'(Position) for the window	
+.LP
+5) \fBwindows_variance\fR
+.br
+	Columns:
+.br
+		1) Trait
+.br
+		2) Effect
+.br
+		3) Start SNP number or SNP name for the window
+.br
+		4) End SNP number or SNP name for the window
+.br
+		5) window size (number of SNP)
+.br
+		6) Start (ChrNumber)'_'(Position) for the window
+.br
+		7) End (ChrNumber)'_'(Position) for the window	
+.br
+		8) Identification of window: (ChrNumber)'_'(startPositionMBP)
+.br
+		9) Variance explained by n adjacent SNPs
+.LP
+6) \fBsnp_pred\fR
+.br
+	Contains allele frequencies and SNP effects
+.LP
+7) \fBGraphic Control Files\fR
+.br
+	Several files are created to generate graphics using eitehr GNUPLOT or R.
+.br
+	Rules for naming:
+.br
+		1st letter:
+.br
+			'S' for solutions of SNP
+.br
+			'V' for variance explained
+.br
+		t = trait
+.br
+		e = effect
+.br
+		Extension:
+.br
+			.gnuplot
+.br
+			.R
+.br
+			.pdf
+.br
+			.png
+.br
+			.tif
+.br
+	Example:
+.br
+		Sft1e2.R
+.br
+			-- This is SNP solutions for trait 1, effect 2 as an R file
+.br
+
+
+
+
+
+
+.SH SEE ALSO
+postGSf90 for doing GWAS studies.
+
+
+
+.SH BUGS
+Please contact the UGA group for program bugs.
+
+
+
+
+.SH AUTHOR
+Austin Putz (amputz@ncsu.edu) Please contact with mistakes and typos within this man page to improve it.
+
+
+
