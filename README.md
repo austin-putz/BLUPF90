@@ -39,7 +39,9 @@ Move these programs to your ~/bin/ or $HOME/bin directory (these are one in the 
   $ mv ~/Downloads
   $ mv name_of_program ~/bin
 ```
-Follow this up by adding a line to your .bash_profile (this file is in your home directory where Documents, Pictures, Downloads, etc live):
+Repeat the move command as many times as needed (for each program). 
+
+Follow this up by adding a line to your .bash_profile (this file is in your home directory where Documents, Pictures, Downloads, etc live. You can get there by typeing `cd` [enter]):
 ```
   $ cd
   $ echo "export PATH=$HOME/bin:$PATH" >> .bash_profile
@@ -48,11 +50,11 @@ If your .bash_profile does not exist, this will create it for you. Mac's will re
 ```
   $ ls -la
 ```
+You should now be able to download
 
 **On Windows**
 
 They are executable already so just type the name of the program without the .exe extension. You may also need to go [here](http://nce.ads.uga.edu/wiki/doku.php?id=faq.windows) to download the extra software you need. 
 
-
-
+Any help or suggestions are always welcome. Please email me if you have questions or comments. 
 
