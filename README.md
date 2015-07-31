@@ -32,9 +32,15 @@ Once you have them as executable you can move them to your folder (directory) th
   $ ./name_of_program
 ```
 
-Advanced! 
+### Advanced! 
 
-Move these programs to your ~/bin/ or $HOME/bin directory (these are one in the same):
+Make a ~/bin directory if you don't have one already
+```
+  $ cd
+  $ mkdir bin
+```
+
+Move these programs you downloaded to your ~/bin/ or $HOME/bin directory (these are one in the same):
 ```
   $ mv ~/Downloads
   $ mv name_of_program ~/bin
@@ -46,15 +52,17 @@ Follow this up by adding a line to your .bash_profile (this file is in your home
   $ cd
   $ echo "export PATH=$HOME/bin:$PATH" >> .bash_profile
 ```
-If your .bash_profile does not exist, this will create it for you. Mac's will read this file, Ubuntu will not as I've figured out. You will have to call it from your .bashrc file. If you are worried you don't see this file, it's because it's hidden. View a hidden file with the following:
+If your .bash_profile does not exist, this will create it for you. Mac's will read this file, Ubuntu will not as I've figured out. You will have to call it from your .bashrc file. If you are worried you don't see this file, it's because it's hidden. View a hidden file with the following
 ```
   $ ls -la
 ```
-You should now be able to download
+You will need to restart your terminal so that it reads in your .bash_profile file. You should now be able to call these programs from anywhere on your computer by simply typing the name of the program. 
 
 **On Windows**
 
 They are executable already so just type the name of the program without the .exe extension. You may also need to go [here](http://nce.ads.uga.edu/wiki/doku.php?id=faq.windows) to download the extra software you need. 
+
+## Comments, Questions, or Problems?
 
 Any help or suggestions are always welcome. Please email me if you have questions or comments. 
 
