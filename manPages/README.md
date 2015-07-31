@@ -4,13 +4,15 @@
 
 ### Mac OS X:
 
-- Find a directory that is in your manpath already (I cannot figure out how to 
+1. Find a directory that is in your manpath already (I cannot figure out how to 
 alter the manpath on Mac OS X as easy as some people seem to say online, help wanted...)
-- 
+
+2.
 ``` 
   $ sudo cp name_of_file /usr/local/share/man/man1/name_of_file.1
 ```
--
+
+3.
 ```
   $ sudo gzip /usr/local/share/man/man1/name_of_file.1
 ```
