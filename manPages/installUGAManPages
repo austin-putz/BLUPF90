@@ -1,0 +1,76 @@
+#!/bin/bash
+
+#===========================================================================================#
+
+# installUGAManPages
+# 	This will install the man pages in the needed directory on Mac OS X
+
+#===========================================================================================#
+
+# Look for the needed directory
+if [ -d /usr/local/share/man/man1/ ]; then
+	echo "The /usr/local/share/man/man1/ folder is available."
+	echo "This directory is in the current MANPATH and the BLUPF90 man pages will be installed here."
+else
+	echo "/usr/local/share/man/man1/ is not available. Cannot install BLUPF90 man pages." >&2
+	exit 1
+fi
+
+# install the renumf90 man page
+if [ -f renumf90 ]; then
+	sudo cp renumf90 /usr/local/share/man/man1/renumf90.1
+	sudo gzip /usr/local/share/man/man1/renumf90.1
+else
+	echo "renumf90 cannot be found"
+fi
+
+# install the blupf90 man page
+if [ -f blupf90 ]; then
+	sudo cp blupf90 /usr/local/share/man/man1/blupf90.1
+	sudo gzip /usr/local/share/man/man1/blupf90.1
+else
+	echo "blupf90 cannot be found"
+fi
+
+# install the remlf90 man page
+if [ -f remlf90 ]; then
+	sudo cp remlf90 /usr/local/share/man/man1/remlf90.1
+	sudo gzip /usr/local/share/man/man1/remlf90.1
+else
+	echo "remlf90 cannot be found"
+fi
+
+# install the airemlf90 man page
+if [ -f airemlf90 ]; then
+	sudo cp airemlf90 /usr/local/share/man/man1/airemlf90.1
+	sudo gzip /usr/local/share/man/man1/airemlf90.1
+else
+	echo "airemlf90 cannot be found"
+fi
+
+# install the gibbs2f90 man page
+if [ -f gibbs2f90 ]; then
+	sudo cp gibbs2f90 /usr/local/share/man/man1/gibbs2f90.1
+	sudo gzip /usr/local/share/man/man1/gibbs2f90.1
+else
+	echo "gibbs2f90 cannot be found"
+fi
+
+# install the preGSf90 man page
+if [ -f preGSf90 ]; then
+	sudo cp preGSf90 /usr/local/share/man/man1/preGSf90.1
+	sudo gzip /usr/local/share/man/man1/preGSf90.1
+else
+	echo "preGSf90 cannot be found"
+fi
+
+# install the postGSf90 man page
+if [ -f postGSf90 ]; then
+	sudo cp postGSf90 /usr/local/share/man/man1/postGSf90.1
+	sudo gzip /usr/local/share/man/man1/postGSf90.1
+else
+	echo "postGSf90 cannot be found"
+fi
+
+
+
