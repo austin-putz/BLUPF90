@@ -1,5 +1,7 @@
 # man pages for BLUPF90 programs
 
+These are NOT final. They have been a work in progress. I would label this 'beta' for now. 
+
 ## Instructions
 
 ### Mac OS X:
@@ -16,6 +18,20 @@ alter the manpath on Mac OS X as easy as some people seem to say online, help wa
 ```
   $ sudo gzip /usr/local/share/man/man1/name_of_file.1
 ```
+
+OR you can run the `installUGAManPages` file.
+
+1. Make it executable:
+```
+  $ chmod 775 installUGAManPages
+```
+
+2. Execute the bash script with:
+```
+  $ ./installUGAManPages
+```
+
+Note: It will ask you if you want to overwrite the file if it already exists (for when you update).
 
 ### Linux machines:
 
