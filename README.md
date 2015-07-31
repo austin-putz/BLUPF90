@@ -20,7 +20,7 @@ You should now be in a directory with the names of the programs.
 
 Click on any of the programs to download (save) them directly to your computer. 
 
-**On Mac or Linux:**
+### On Mac or Linux:
 
 Go to the Downloads folder and convert them to an executable with:
 ```
@@ -32,7 +32,7 @@ Once you have them as executable you can move them to your folder (directory) th
   $ ./name_of_program
 ```
 
-### Advanced! 
+**Advanced!**
 
 Make a ~/bin directory if you don't have one already
 ```
@@ -58,7 +58,7 @@ If your .bash_profile does not exist, this will create it for you. Mac's will re
 ```
 You will need to restart your terminal so that it reads in your .bash_profile file. You should now be able to call these programs from anywhere on your computer by simply typing the name of the program. 
 
-**On Windows**
+### On Windows
 
 They are executable already so just type the name of the program without the .exe extension. You may also need to go [here](http://nce.ads.uga.edu/wiki/doku.php?id=faq.windows) to download the extra software you need. 
 
