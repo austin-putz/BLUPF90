@@ -1,75 +1,157 @@
 #!/bin/bash
 
-#===========================================================================================#
+#==============================================================================#
 
 # installUGAManPages
-# 	This will install the man pages in the needed directory on Mac OS X
+# 	This will install the man pages in the needed directory on Mac OS X and Ubuntu
 
-#===========================================================================================#
+# Author    : Austin Putz putz[dot]austin[at]gmail[dot]com
+# Created   : Summer 2014
+# Modified  : 2015-07-31
+# Licence   : GPLv2
 
-# Look for the needed directory
-if [ -d /usr/local/share/man/man1/ ]; then
-	echo "The /usr/local/share/man/man1/ folder is available."
+#==============================================================================#
+
+macOSx="/usr/local/share/man/man1"
+linux="/usr/share/man/man1"
+
+#==============================================================================#
+# Look for the needed directory on Mac OS X
+#==============================================================================#
+if [ -d $macOSx ]; then
+
+	echo "The $macOSx folder is available."
 	echo "This directory is in the current MANPATH and the BLUPF90 man pages will be installed here."
-else
-	echo "/usr/local/share/man/man1/ is not available. Cannot install BLUPF90 man pages." >&2
-	exit 1
-fi
 
 # install the renumf90 man page
 if [ -f renumf90 ]; then
-	sudo cp renumf90 /usr/local/share/man/man1/renumf90.1
-	sudo gzip /usr/local/share/man/man1/renumf90.1
+	sudo cp renumf90 $macOSx/renumf90.1
+	sudo gzip $macOSx/renumf90.1
 else
 	echo "renumf90 cannot be found"
 fi
 
 # install the blupf90 man page
 if [ -f blupf90 ]; then
-	sudo cp blupf90 /usr/local/share/man/man1/blupf90.1
-	sudo gzip /usr/local/share/man/man1/blupf90.1
+	sudo cp blupf90 $macOSx/blupf90.1
+	sudo gzip $macOSx/blupf90.1
 else
 	echo "blupf90 cannot be found"
 fi
 
 # install the remlf90 man page
 if [ -f remlf90 ]; then
-	sudo cp remlf90 /usr/local/share/man/man1/remlf90.1
-	sudo gzip /usr/local/share/man/man1/remlf90.1
+	sudo cp remlf90 $macOSx/remlf90.1
+	sudo gzip $macOSx/remlf90.1
 else
 	echo "remlf90 cannot be found"
 fi
 
 # install the airemlf90 man page
 if [ -f airemlf90 ]; then
-	sudo cp airemlf90 /usr/local/share/man/man1/airemlf90.1
-	sudo gzip /usr/local/share/man/man1/airemlf90.1
+	sudo cp airemlf90 $macOSx/airemlf90.1
+	sudo gzip $macOSx/airemlf90.1
 else
 	echo "airemlf90 cannot be found"
 fi
 
 # install the gibbs2f90 man page
 if [ -f gibbs2f90 ]; then
-	sudo cp gibbs2f90 /usr/local/share/man/man1/gibbs2f90.1
-	sudo gzip /usr/local/share/man/man1/gibbs2f90.1
+	sudo cp gibbs2f90 $macOSx/gibbs2f90.1
+	sudo gzip $macOSx/gibbs2f90.1
 else
 	echo "gibbs2f90 cannot be found"
 fi
 
 # install the preGSf90 man page
 if [ -f preGSf90 ]; then
-	sudo cp preGSf90 /usr/local/share/man/man1/preGSf90.1
-	sudo gzip /usr/local/share/man/man1/preGSf90.1
+	sudo cp preGSf90 $macOSx/preGSf90.1
+	sudo gzip $macOSx/preGSf90.1
 else
 	echo "preGSf90 cannot be found"
 fi
 
 # install the postGSf90 man page
 if [ -f postGSf90 ]; then
-	sudo cp postGSf90 /usr/local/share/man/man1/postGSf90.1
-	sudo gzip /usr/local/share/man/man1/postGSf90.1
+	sudo cp postGSf90 $macOSx/postGSf90.1
+	sudo gzip $macOSx/postGSf90.1
 else
 	echo "postGSf90 cannot be found"
+fi
+
+
+#==============================================================================#
+# Look for needed directory on Linux (Ubuntu 14.04)
+#==============================================================================#
+
+elif [ -d $linux ]; then
+
+	echo "The $linux folder is available."
+	echo "This directory is in the current MANPATH and the BLUPF90 man pages will be installed here."
+
+# install the renumf90 man page
+if [ -f renumf90 ]; then
+	sudo cp renumf90 $linux/renumf90.1
+	sudo gzip $linux/renumf90.1
+else
+	echo "renumf90 cannot be found"
+fi
+
+# install the blupf90 man page
+if [ -f blupf90 ]; then
+	sudo cp blupf90 $linux/blupf90.1
+	sudo gzip $linux/blupf90.1
+else
+	echo "blupf90 cannot be found"
+fi
+
+# install the remlf90 man page
+if [ -f remlf90 ]; then
+	sudo cp remlf90 $linux/remlf90.1
+	sudo gzip $linux/remlf90.1
+else
+	echo "remlf90 cannot be found"
+fi
+
+# install the airemlf90 man page
+if [ -f airemlf90 ]; then
+	sudo cp airemlf90 $linux/airemlf90.1
+	sudo gzip $linux/airemlf90.1
+else
+	echo "airemlf90 cannot be found"
+fi
+
+# install the gibbs2f90 man page
+if [ -f gibbs2f90 ]; then
+	sudo cp gibbs2f90 $linux/gibbs2f90.1
+	sudo gzip $linux/gibbs2f90.1
+else
+	echo "gibbs2f90 cannot be found"
+fi
+
+# install the preGSf90 man page
+if [ -f preGSf90 ]; then
+	sudo cp preGSf90 $linux/preGSf90.1
+	sudo gzip $linux/preGSf90.1
+else
+	echo "preGSf90 cannot be found"
+fi
+
+# install the postGSf90 man page
+if [ -f postGSf90 ]; then
+	sudo cp postGSf90 $linux/postGSf90.1
+	sudo gzip $linux/postGSf90.1
+else
+	echo "postGSf90 cannot be found"
+fi
+
+
+
+else
+
+	echo "$macOSx or $linux is not available. Cannot install BLUPF90 man pages." >&2
+	exit 1
+
 fi
 
 
