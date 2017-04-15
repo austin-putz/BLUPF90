@@ -12,6 +12,10 @@ vim is the most common command line text editor for Mac OS X and Linux, although
 
 Man pages are available on Mac OS X and Linux systems. I prefer them to the alternative info pages, which to me look like very poorly formated text files. Man pages are formatted much better and don't take you to a random page if that program doesn't exist. It's my hope that they will eventually have much more information than what their wiki currently has. I may just add documentation to this repository instead. 
 
+### 3 - blupf90.0.x.sh
+
+This script was designed to loop through numerous parameter files and solve for variance components. I can get the documentation together if anyone is interested in using it. 
+
 ## How do I download the BLUPF90 programs?
 
 Go to this [link](http://nce.ads.uga.edu/wiki/doku.php?id=start) --> Documentation --> here --> Your OS --> Needed folder
