@@ -112,6 +112,29 @@ They are executable already so just type the name of the program without the .ex
 
 This writes out 4 files, **renf90.par**, **readdxx.par**, **renf90.dat**, **renf90.tables**. 
 
+<ol>
+<li>renf90.par = recreated parameter file you give to other application programs</li>
+<li>renaddxx.par = renumbered pedigre file for application programs</li>
+<li>renf90.dat = renumbered data file for application programs</li>
+<li>renf90.tables = recoded class variables with counts</li>
+</ol>
+
+Then run any program you want with renf90.par. 
+
+```
+ $ blupf90 <<< renf90.par
+```
+
+```
+ $ remlf90 <<< renf90.par
+```
+
+```
+ $ airemlf90 <<< renf90.par
+```
+
+This will output what you need. 
+
 ## Tips and Hints
 
 Always make sure 0's are missing in the pedigree. You can set missing value using 'OPTION missing -999' at the end of the parameter files to change for your dataset, not the pedigree.
