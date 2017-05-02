@@ -1,0 +1,34 @@
+# Practice UGA parameter file for simple univariate
+# See chapter 3 in Mrode 2014 (Linear Models) for details
+DATAFILE
+pop1_data_001_UGA.txt
+TRAITS
+10         # This is column 10 (phenotype) from QMSim data file
+FIELDS_PASSED TO OUTPUT
+1          # This will copy the ID number to the renf90.dat data file
+WEIGHT(S)  # WARNING: ALWAYS PUT AN EMPTY LINE AFTER THIS!!!!!
+
+RESIDUAL_VARIANCE
+3                # add starting values for residual variance
+EFFECT
+5 cross alpha    # Fit generation as a fixed effect, 'cross alpha' is a class in SAS
+EFFECT
+1 cross alpha    # Fit animal effect
+RANDOM
+animal           # Fit animal effect (A matrix) for the effect directly above it (column 1, animal)
+FILE
+pop1_data_001_UGA.ped   # name of the pedigree file (animal, sire, dam), 0's are missing always!!!
+FILE_POS
+1 2 3 0 0        # indicates that column 1 = Animal, column 2 = Sire, column 3 = Dam
+(CO)VARIANCES    
+1               # add starting values for additive animal effect
+EFFECT
+1 cross alpha   # same animal effect as before
+RANDOM
+diagonal        # no A matrix, just a diagonal for PE effects
+(CO)VARIANCES
+1               # add starting value for PE variance
+OPTION alpha_size 25   			# Equal to the max number of characters within a column
+OPTION max_string_readline 800  # maximum number of characters in one line of data file
+OPTION max_field_readline 100   # maximum number of columns in the dataset
+
