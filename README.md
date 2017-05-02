@@ -100,7 +100,9 @@ You will need to restart your terminal so that it reads in your .bash_profile fi
 
 ### On Windows
 
-Go luck, I don't work with Windows much at all. I know people who have and it seems pretty easy. 
+I don't use windows at all. 
+
+From what I know, you should run from the cmd line. 
 
 They are executable already so just type the name of the program without the .exe extension. You may also need to go [here](http://nce.ads.uga.edu/wiki/doku.php?id=faq.windows) to download the extra software you need. 
 
@@ -133,7 +135,14 @@ Then run any program you want with renf90.par.
  $ airemlf90 <<< renf90.par
 ```
 
-This will output what you need. 
+etc...
+
+This will output what you need. You can save output in Linux with:
+
+```
+ $ echo renf90.par | remlf90 | tee practice_reml_output.txt
+```
+
 
 ## Tips and Hints
 
