@@ -4,7 +4,7 @@ Here is a list of examples and how you would actually use the programs.
 
  'practice.prm' is a parameter file for the QMSim simulation. 
  
- Columns:
+ Columns in datafile (header was removed for BLUPF90):
  <ol>
  <li>Progeny</li>
  <li>Sire</li>
