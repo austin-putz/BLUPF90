@@ -1,5 +1,5 @@
 # Practice UGA parameter file for simple univariate
-# See chapter 3 in Mrode 2014 (Linear Models) for details
+# See chapter 4 in Mrode 2014 (Linear Models) for details
 DATAFILE
 pop1_data_001_UGA.txt
 TRAITS
