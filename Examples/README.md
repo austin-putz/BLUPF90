@@ -31,7 +31,7 @@ This is a simple univarite model from the one above, adding a permanent environm
 
 ## Bivariate_Animal
 
-This is a 2-trait (Bivariate) model. 
+This is a 2-trait (Bivariate) model (chapter 5 Mrode)
 
 
 
