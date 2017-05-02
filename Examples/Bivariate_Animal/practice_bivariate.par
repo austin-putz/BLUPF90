@@ -14,6 +14,8 @@ RESIDUAL_VARIANCE  # add residual (R) matrix
 EFFECT             # if you only want to fit for 1 trait, use '5 0' to only add Generation to trait 1 as fixed
 5 5 cross alpha    # Fit generation as a fixed effect, 'cross alpha' is a class in SAS
 EFFECT
+4 4 cross alpha    # Fit another fixed effect for both traits, Sex
+EFFECT
 1 1 cross alpha    # Fit animal effect
 RANDOM
 animal             # Fit animal effect (A matrix) for the effect directly above it (column 1, animal)
