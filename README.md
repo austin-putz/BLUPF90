@@ -110,11 +110,11 @@ They are executable already so just type the name of the program without the .ex
  $ renumf90 <<< my_par_file.par
 ```
 
-This writes out 4 files, **renf90.par**, **readdxx.par**, **renf90.dat**, **renf90.tables**. 
+This writes out 4 files, **renf90.par**, **renaddxx.par**, **renf90.dat**, **renf90.tables**. 
 
 <ol>
 <li>renf90.par = recreated parameter file you give to other application programs</li>
-<li>renaddxx.par = renumbered pedigre file for application programs</li>
+<li>renaddxx.par = (usually xx=02) renumbered pedigre file for application programs</li>
 <li>renf90.dat = renumbered data file for application programs</li>
 <li>renf90.tables = recoded class variables with counts</li>
 </ol>
