@@ -2,6 +2,8 @@
 
 Here is a list of examples and how you would actually use the programs. 
 
+ 'practice.prm' is a parameter file for the QMSim simulation. 
+
 ## Univariate_Animal
 
 This is a simple univariate animal model (chapter 3 Mrode). 
