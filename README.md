@@ -48,6 +48,9 @@ worry about it until someone does... If you are
 good with bash scripts, you can probably figure out how 
 it works by yourself by looking at my code.
 
+### 4 - Examples
+
+This is a folder with examples. I'm using QMSim to generate files for now, but I'd like to add all the examples from Mrode's book when I have time. 
 
 ## How do I download the BLUPF90 programs?
 
@@ -97,9 +100,29 @@ You will need to restart your terminal so that it reads in your .bash_profile fi
 
 ### On Windows
 
+Go luck, I don't work with Windows much at all. I know people who have and it seems pretty easy. 
+
 They are executable already so just type the name of the program without the .exe extension. You may also need to go [here](http://nce.ads.uga.edu/wiki/doku.php?id=faq.windows) to download the extra software you need. 
+
+## How do I use the BLUPF90 programs?
+
+```
+ $ renumf90 <<< my_par_file.par
+```
+
+This writes out 4 files, **renf90.par**, **readdxx.par**, **renf90.dat**, **renf90.tables**. 
+
+## Tips and Hints
+
+Always make sure 0's are missing in the pedigree. You can set missing value using 'OPTION missing -999' at the end of the parameter files to change for your dataset, not the pedigree.
+
+Make sure you don't have headers.
+
+Make sure everything is a simple space delimited file with no other stuff in it (tabs, etc).
+
+Always add 'WEIGHT(S)' with an extra empty line below it (if not using them). 
 
 ## Comments, Questions, or Problems?
 
-Any help or suggestions are always welcome. Please email me if you have questions or comments. 
+Any help or suggestions are always welcome. Please email me if you have questions or comments (aputz@iastate.edu)
 
