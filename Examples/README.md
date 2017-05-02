@@ -3,6 +3,23 @@
 Here is a list of examples and how you would actually use the programs. 
 
  'practice.prm' is a parameter file for the QMSim simulation. 
+ 
+ Columns:
+ <ol>
+ <li>Progeny</li>
+ <li>Sire</li>
+ <li>Dam</li>
+ <li>Sex</li>
+ <li>G</li>
+ <li>NMPrg</li>
+ <li>NFPrg</li>
+ <li>F</li>
+ <li>Homo</li>
+ <li>Phen</li>
+ <li>Res</li>
+ <li>Polygene</li>
+ <li>QTL</li>
+ </ol>
 
 ## Univariate_Animal
 
