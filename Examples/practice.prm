@@ -1,0 +1,104 @@
+//===============================================================================================//
+//                Simulation for Binary Comparison Trails                                        //
+//===============================================================================================//
+
+//----------------------------------------//
+//     Global parameters                  //
+//----------------------------------------//
+
+// Set Global parameters for the trait
+title = "Practice Trait h2 = 0.30";
+nrep  = 1;                    // Number of replicates
+h2    = 0.30;                  // Heritability
+qtlh2 = 0.15;                  // QTL heritability
+phvar = 1;                     // Phenotypic variance
+// no_male_rec;                   // Litter size so no males, remove for others
+
+//----------------------------------------//
+//   Historical Populations               //
+//----------------------------------------//
+
+// 500 boars and 500 sows for 1500 generations (~80% homozygosity)
+// Expand population at the end so you can sample enough females (1000 sows)
+begin_hp;
+   hg_size = 1000 [0]
+   			 1000 [1500];
+end_hp;
+
+//----------------------------------------//
+//     Recent Populations                 //
+//----------------------------------------//
+
+// BEGIN recent population    // was "purebred" before
+begin_pop = "pop1";
+
+// Sample from historical population to get recent population
+   begin_founder;
+      male   [n =   25, pop = "hp"];
+      female [n = 50, pop = "hp"];
+   end_founder;
+
+// Set parameters for recent population
+   ls  = 2 3 [0.02] 4 [0.03] 5 [0.04] 6 [0.06] 
+   		7 [0.07] 8 [0.10] 9 [0.14] 10 [0.14] 11 [0.15] 
+		12 [0.12] 13 [0.07] 14 [0.04] 15 [0.01];                  // Litter size (mimic LSW in LW) [2 = 0.01]
+   pmp = 0.5 /fix;            // Proportion of male progeny
+   ng  = 5;                  // Number of generations
+   sr  = 1;                 // Sire replacement (discrete if 1)
+   dr  = 1;                 // Dam replacement (discrete if 1)
+   sd  = phen;                 // Selection (random)
+   md  = maxf;                // Mating design (random)
+   cd  = rnd;                 // Culling design (none if discrete)
+
+// Set Output
+  begin_popoutput;
+        data;                 // Data for all generations
+        stat;                 // Statistics
+		//allele_freq;          // Allele frequencies
+        //genotype /snp_code /gen  1 2 3 4 5 6 7 8 9 10 ;  // Genotypes for last generations
+   end_popoutput;
+
+// END recent population
+end_pop;
+
+//----------------------------------------//
+//          Genome                        //
+//----------------------------------------//
+
+// Set Genome parameters
+begin_genome;
+
+   begin_chr = 18;            // 18 pairs for Swine
+      chrlen = 100;           // Chromosome length (cM)
+      nmloci = 10000;         // Number of markers (Oversimulate and then cut them down simulating SNP selection of segregating loci by Illumina)
+							  // This is per chromosome though
+      mpos   = rnd;           // Marker positions
+      nma    = all 2;         // Number of marker alleles
+      maf    = rnd;           // Marker allele frequencies
+      nqloci = 25;            // Number of QTL (25 * 18 = 450) 
+							  // need 300 QTL from Daetwyler 2010 paper (Figure 1) to make GBLUP and BayesB equal (but some fix)
+	  						  // Given results showing GBLUP and Bayesian methods are comparable, 
+							  // pick the one where they are the same given the same heritability
+							  // Tusell 2013 show many methods are the same
+      qpos   = rnd;           // QTL positions
+      nqa    = rnd 2;         // Number of QTL alleles
+      qaf    = rnd;           // QTL allele frequencies
+      qae    = rndg 0.4;      // QTL allele effects
+   end_chr;
+
+   // Basically randomly selecting from anything that is segregating
+   select_seg_loci /maft 0.01 /nmrk 60000;  // Select only 60000 segregating loci at freq at 0.01
+   											// preGS will cut down the rest that don't meet the threshold
+
+end_genome;
+
+//----------------------------------------//
+//       Output options                   //
+//----------------------------------------//
+
+// Set global output
+begin_output;
+   linkage_map;
+end_output;
+
+
