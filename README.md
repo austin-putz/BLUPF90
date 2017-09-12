@@ -63,39 +63,43 @@ Click on any of the programs to download (save) them directly to your computer.
 ### On Mac or Linux:
 
 Go to the Downloads folder and convert them to an executable with:
-```
+```bash
   $ chmod 775 name_of_program
 ```
 
 Once you have them as executable you can move them to your folder (directory) that you are working in and need to run the programs from. All you will need to do is add "./" in front of the name of the program. This tells your computer that the program is in the current working directory. 
-```
+```bash
   $ ./name_of_program
 ```
 
 **Advanced!**
 
 Make a ~/bin directory if you don't have one already
-```
+```bash
   $ cd
   $ mkdir bin
 ```
 
-Move these programs you downloaded to your ~/bin/ or $HOME/bin directory (these are one in the same):
-```
+Move these programs you downloaded to your `~/bin/` or `$HOME/bin` directory (these are one in the same):
+```bash
   $ mv ~/Downloads
   $ mv name_of_program ~/bin
 ```
+
 Repeat the move command as many times as needed (for each program). 
 
 Follow this up by adding a line to your .bash_profile (this file is in your home directory where Documents, Pictures, Downloads, etc live. You can get there by typeing `cd` [enter]):
-```
+```bash
   $ cd
   $ echo "export PATH=$HOME/bin:$PATH" >> .bash_profile
 ```
-If your .bash_profile does not exist, this will create it for you. Mac's will read this file, Ubuntu will not as I've figured out. You will have to call it from your .bashrc file. If you are worried you don't see this file, it's because it's hidden. View a hidden file with the following
-```
+
+If your `.bash_profile` does not exist, this will create it for you. Mac's will read this file, Ubuntu will not as I've figured out. You will have to call it from your `.bashrc` file or have your `.bashrc` file read your `.bash_profile` file. If you are worried you don't see this file, it's because it's hidden. View a hidden file with the following
+
+```bash
   $ ls -la
 ```
+
 You will need to restart your terminal so that it reads in your .bash_profile file. You should now be able to call these programs from anywhere on your computer by simply typing the name of the program. 
 
 ### On Windows
@@ -108,7 +112,9 @@ They are executable already so just type the name of the program without the .ex
 
 ## How do I use the BLUPF90 programs?
 
-```
+You have to first run the parameter file for `renumf90`. This program (1) formats data and reorganizes, (2) trims, orders, and renumbers the pedigree, (3) writes a new parameter file (`renf90.par`). 
+
+```bash
  $ renumf90 <<< my_par_file.par
 ```
 
@@ -123,16 +129,20 @@ This writes out 4 files, **renf90.par**, **renaddxx.par**, **renf90.dat**, **ren
 
 Then run any program you want with renf90.par. 
 
-```
+```bash
  $ blupf90 <<< renf90.par
 ```
 
-```
+```bash
  $ remlf90 <<< renf90.par
 ```
 
-```
+```bash
  $ airemlf90 <<< renf90.par
+```
+
+```bash
+ $ thrgibbs1f90 <<< renf90.par
 ```
 
 etc...
@@ -143,16 +153,19 @@ This will output what you need. You can save output in Linux with:
  $ echo renf90.par | remlf90 | tee practice_reml_output.txt
 ```
 
+I don't think Windows has a `tee` equivalent. 
+
+
 
 ## Tips and Hints
 
-Always make sure 0's are missing in the pedigree. You can set missing value using 'OPTION missing -999' at the end of the parameter files to change for your dataset, not the pedigree.
+Always make sure 0's are missing in the pedigree. You can set missing value using 'OPTION missing -999' at the end of the renumf90 parameter files to change for your dataset, not the pedigree.
 
 Make sure you don't have headers.
 
 Make sure everything is a simple space delimited file with no other stuff in it (tabs, etc).
 
-Always add 'WEIGHT(S)' with an extra empty line below it (if not using them). 
+Always add 'WEIGHT(S)' with an extra empty line below it (if not using them). Use the order on their website. 
 
 ## Comments, Questions, or Problems?
 
