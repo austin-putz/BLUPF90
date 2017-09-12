@@ -121,13 +121,13 @@ You have to first run the parameter file for `renumf90`. This program (1) format
 This writes out 4 files, **renf90.par**, **renaddxx.par**, **renf90.dat**, **renf90.tables**. 
 
 <ol>
-<li>renf90.par = recreated parameter file you give to other application programs</li>
-<li>renaddxx.par = (usually xx=02) renumbered pedigre file for application programs</li>
-<li>renf90.dat = renumbered data file for application programs</li>
+<li>renf90.par    = recreated parameter file you give to other application programs</li>
+<li>renaddxx.par  = (usually xx=02,03,04,etc.) renumbered pedigree file for application programs</li>
+<li>renf90.dat    = renumbered data file for application programs and only needed data</li>
 <li>renf90.tables = recoded class variables with counts</li>
 </ol>
 
-Then run any program you want with renf90.par. 
+Then run any program you want with `renf90.par`. 
 
 ```bash
  $ blupf90 <<< renf90.par
@@ -170,4 +170,34 @@ Always add 'WEIGHT(S)' with an extra empty line below it (if not using them). Us
 ## Comments, Questions, or Problems?
 
 Any help or suggestions are always welcome. Please email me if you have questions or comments (aputz@iastate.edu)
+
+## Example
+
+The following is an example parameter file for BLUPF90. This is a two trait example. 
+
+![](/Screenshots/parameter_file.png)
+
+The program works by **keywords**. The 
+
+* DATAFILE: specifies the name of the datafile
+* TRAITS: column numbers for response traits to analyze
+* FIELDS_PASSED TO OUTPUT: Column numbers for original values in the datafile to be copied to the new datafile (renumf90 recodes raw data to 1,2,3,...,n format. Nice to have for original IDs of animals. 
+* WEIGHT(S): Column number for weighted analysis. NEED to keep a blank line if you don't run it. 
+* RESIDUAL_VARIANCE: starting values for residual variances (start higher)
+* EFFECT: Column numbers for fixed/random effects
+* RANDOM: Keyword needs to be animal or diagonal (sire but not sure it's implemented)
+* FILE: Name of pedigree file
+* FILE_POS: Column number in pedigree for (1) Animal (2) Sire (3) Dam (4) Alt Dam (5) Year of Birth
+* PED_DEPTH: Number of generations to search back in the pedigree (default 3)
+* (CO)VARIANCES: Starting effects for random effect variances, usually animal effect first
+* OPTION: Any options available for renumf90 or application programs (remlf90, airemlf90)
+
+
+
+
+
+
+
+
+
 
