@@ -104,9 +104,9 @@ You will need to restart your terminal so that it reads in your .bash_profile fi
 
 ### On Windows
 
-I don't use windows at all. 
+I don't use windows at all. I think the easiest thing to do is to download git bash for windows ([link](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/)). This will allow you to basically run a Ubuntu bash shell inside windows. This is not a virtual machine I guess, it's integrated into the system. This will allow you to run vim and commands you have in bash. 
 
-From what I know, you should run from the cmd line. 
+You can also just run from the cmd line, but it's not near as useful as bash scripting. 
 
 They are executable already so just type the name of the program without the .exe extension. You may also need to go [here](http://nce.ads.uga.edu/wiki/doku.php?id=faq.windows) to download the extra software you need. 
 
@@ -161,7 +161,7 @@ I don't think Windows has a `tee` equivalent.
 
 Always make sure 0's are missing in the pedigree. You can set missing value using 'OPTION missing -999' at the end of the renumf90 parameter files to change for your dataset, not the pedigree.
 
-Make sure you don't have headers.
+Make sure you don't have headers on files. Headers are the devil. 
 
 Make sure everything is a simple space delimited file with no other stuff in it (tabs, etc).
 
