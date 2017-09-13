@@ -188,13 +188,15 @@ The program works by **keywords**. The
 * RANDOM: Keyword needs to be animal or diagonal (sire but not sure it's implemented)
 * FILE: Name of pedigree file
 * FILE_POS: Column number in pedigree for (1) Animal (2) Sire (3) Dam (4) Alt Dam (5) Year of Birth
-* PED_DEPTH: Number of generations to search back in the pedigree (default 3)
+* PED_DEPTH: Number of generations to search back in the pedigree (default 3), 0 will load entire 
 * (CO)VARIANCES: Starting effects for random effect variances, usually animal effect first
 * OPTION: Any options available for renumf90 or application programs (remlf90, airemlf90)
 
+Since it's a 2 trait analaysis, there are 2 2x2 blocks for starting values for residual and genetic variances. If you want to add an effect to both traits, you must add the column number for that effect for both traits "2 2 cross alpha". If you want to only add it to one of the traits (response), you need to put a 0 for one of them like "14 0 cov". For class traits you need to add the "cross alpha" and for covariates you need to add "cov" after the column numbers. 
 
+"FILE_POS 1 2 3 0 0" indicates that the animal sire and dam are in columns 1, 2, and 3 respectively. There is no alt dam or year of birth in the pedigree file. If you had year of birth in the pedigree file (4 columns), it would be "FILE_POS 1 2 3 0 4". 
 
-
+You will see that there is one option in magenta at the bottom. These are options for renumf90, most options are for the application programs and simply get passed on to those programs through `renf90.par`. The only 3 options that are for renumf90 are `alpha_size`, `max_string_readline`, and `max_field_readline`. 
 
 
 
