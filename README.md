@@ -198,6 +198,20 @@ Since it's a 2 trait analaysis, there are 2 2x2 blocks for starting values for r
 
 You will see that there is one option in magenta at the bottom. These are options for renumf90, most options are for the application programs and simply get passed on to those programs through `renf90.par`. The only 3 options that are for renumf90 are `alpha_size`, `max_string_readline`, and `max_field_readline`. 
 
+### Input Files
+
+These are simply space delimited files with NO header. I write out a separate file from R with 1 column name per line to remember what columns are which. Then use `cat -n file.hd` to number each one. 
+
+Here is a view of the data with missing as -999. You can add this as `OPTION missing -999` in the parameter file. 
+
+![](/Screenshots/data.png)
+
+Here is a view of the pedigree with animal, sire, and dam. 0 is missing for the pedigree no matter what you set for the data file. 00 will be treated as an actual ID I believe. Be careful. 
+
+![](/Screenshots/data.png)
+
+Genotype files are 0,1,2, and 5 (missing) with no spaces. All the genotypes MUST start at the same character (lets say 20). So all of your IDs will have to fit in the first 18 characters (at least 1 space in between). 
+
 
 
 
