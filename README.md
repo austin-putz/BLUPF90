@@ -208,7 +208,7 @@ Here is a view of the data with missing as -999. You can add this as `OPTION mis
 
 Here is a view of the pedigree with animal, sire, and dam. 0 is missing for the pedigree no matter what you set for the data file. 00 will be treated as an actual ID I believe. Be careful. 
 
-![](/Screenshots/data.png)
+![](/Screenshots/pedigree.png)
 
 Genotype files are 0,1,2, and 5 (missing) with no spaces. All the genotypes MUST start at the same character (lets say 20). So all of your IDs will have to fit in the first 18 characters (at least 1 space in between). 
 
