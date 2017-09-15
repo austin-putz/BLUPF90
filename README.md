@@ -15,7 +15,7 @@ Anything I do related to the BLUPF90 programs will be included in this repositor
 vim is the most common command line text editor for Mac OS X and Linux, although it can also exist on Windows computers. vim syntax highlighting files allow the user to see keywords highlighted in real time. This will hopefully eliminate one of the most common problems, which is spelling things wrong. For instance adding EFFETC in your parameter file instead of EFFECT. vim highlighting would display an error and it could be fixed immediately without ever running the parameter file. 
 
 If you have problems after downloading use:
-```shell
+```bash
 vim my_file.par
 :set syntax=par
 ```
@@ -184,7 +184,7 @@ etc...
 
 This will output what you need. You can save output in Linux with:
 
-```
+```bash
  $ echo renf90.par | remlf90 | tee practice_reml_output.txt
 ```
 
@@ -265,6 +265,10 @@ Genotype files are 0,1,2, and 5 (missing) with no spaces. All the genotypes MUST
 
 These are imputed so no missing values. But the missing value would be 5. 
 
+You can use the following command with `awk` to get them lined up!
+```bash
+awk ' { printf "%-20s %s\n", $1, $3 } ' my_file.mrk > new_file.mrk
+```
 
 ## Output Files from renumf90
 
