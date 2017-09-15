@@ -22,14 +22,14 @@ vim my_file.par
 
 This will tell vim to find the file and use par as the syntax highlighting file. 
 
-Example:
-![](/Screenshots/blupf90_man_page.png)
-
 ### 2 - man pages
 
 Man pages are available on Mac OS X and Linux systems. I prefer them to the alternative info pages, which to me look like very poorly formated text files. Man pages are formatted much better and don't take you to a random page if that program doesn't exist. It's my hope that they will eventually have much more information than what their wiki currently has. I may just add documentation to this repository instead. 
 
 I think I may move to GitHub for this as these are extensively used or kept up to date. I'm also having problems getting my systems to recognize them on Linux. 
+
+Example:
+![](/Screenshots/blupf90_man_page.png)
 
 ### 3 - blupf90.0.x.sh
 
