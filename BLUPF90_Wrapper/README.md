@@ -10,6 +10,6 @@ The easiest way to explain is to probable just show you an example. Here is a sc
 
 ![](/Screenshots/blupf90_wrapper_sh.png)
 
-
+You can the program and then other options. 
 
 
