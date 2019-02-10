@@ -101,28 +101,42 @@ if [ -z $1 ]; then        # check to see if any options are even given
 
 	printf "\nOptions:\n" 1>&2
 	printf "\t-a     = application program (remlf90, airemlf90, gibbs2f90, thrgibbs1f90)\n" 1>&2
-	printf "\t-s     = starting column of response variables\n" 1>&2
-	printf "\t-e     = ending column of response variables\n" 1>&2
 	printf "\t-p     = parameter file\n" 1>&2
 	printf "\t-pd    = parameter file directory\n" 1>&2
-	printf "\t-d     = data file\n" 1>&2
-	printf "\t-h     = header file\n" 1>&2
-	printf "\t-b     = basename for files\n" 1>&2
-	printf "\t-m     = missing value in dataste\n" 1>&2
 	printf "\t-o     = output directory\n" 1>&2
-	printf "\t-n     = cell phone number to text when each analysis completes\n" 1>&2
+	printf "\t-d     = data file\n" 1>&2
+	printf "\t-ped   = pedigree file\n" 1>&2
+	printf "\t-pedd  = pedigree depth (0 is whole pedigree and usually suggested, 3 is default in programs)\n" 1>&2
+	printf "\t-gen   = genotype file\n" 1>&2
+	printf "\t-map   = map file\n" 1>&2
+	printf "\t-h     = header file (with columns)\n" 1>&2
+	printf "\t-b     = basename for files\n" 1>&2
+	printf "\t-m     = missing value in dataset\n" 1>&2
+	printf "\t-em    = number of EM rounds before AIREML\n" 1>&2
+	printf "\t-mr    = maximum number of rounds of REML or AIRMEL\n" 1>&2
 	printf "\t-acc   = calculate accuracy with accf90\n" 1>&2
 	printf "\t-gs    = genomic selection with single-step\n" 1>&2
 	printf "\t-ns    = number of samples\n" 1>&2
 	printf "\t-bi    = burn-in\n" 1>&2
 	printf "\t-st    = store every __ samples\n" 1>&2
 
-	printf "\nKeywords: \n" 1>&2
-	printf "\t1) 'file.dat' (datafile to replace, place below DataFile keyword in par file)\n" 1>&2 
-	printf "\t2) 'trait1' (single trait, place below TRAITS keyword in par file)\n" 1>&2
-	printf "\t3) 'trait1 trait2' (in bivariate analyses)\n\n" 1>&2
+	printf "\nKeywords to place in parameter (.par) files: \n" 1>&2
+	printf "\t1) 'data.dat' (data file to replace, place below DATAFILE keyword in par file)\n" 1>&2 
+	printf "\t1) 'ped.dat' (pedigree file to replace, place below FILE keyword in par file)\n" 1>&2 
+	printf "\t1) 'genotypes.dat' (genotype file to replace, place below SNP_FILE keyword in par file)\n" 1>&2 
+	printf "\t1) 'map.dat' (map file to replace, place after 'chrinfo' keyword in par file)\n" 1>&2 
+	printf "\t2) 'columns' (this will be replaced based on the file name, e.g. 12 20 30 for a 3 trait analysis)\n" 1>&2
+	printf "\t2) 'FIXED_EFFECT_COLUMN_NAME' (place the column names of fixed effects that will be replaced with the column number to use in the par file)\n" 1>&2
+	printf "\t2) 'e_var_1' (this will be the residual starting value for trait 1)\n" 1>&2
+	printf "\t2) 'e_var_2' (this will be the residual starting value for trait 2)\n" 1>&2
+	printf "\t2) 'e_var_x' (this will be the residual starting value for trait 2)\n" 1>&2
+	printf "\t2) 'a_var_1' (this will be the additive genetic starting value for trait 1)\n" 1>&2
+	printf "\t2) 'a_var_2' (this will be the additive genetic starting value for trait 2)\n" 1>&2
+	printf "\t2) 'a_var_x' (this will be the additive genetic starting value for trait 2)\n" 1>&2
+	printf "\t2) 'MAXROUNDS' (maximum number of REML or AIREML rounds of iteration, placed after 'maxrounds' keyword in par file)\n" 1>&2
+	printf "\t2) 'PEDIGREE_DEPTH' (pedigree depth placed after PED_DEPTH keyword in par file)\n" 1>&2
 
-	printf "Please see my GitHub for more: https://github.com/austin-putz/BLUPF90/tree/master/BLUPF90_Wrapper\n\n" 1>&2
+	printf "\nPlease see my GitHub for more: https://github.com/austin-putz/BLUPF90/tree/master/BLUPF90_Wrapper\n\n" 1>&2
 
  	exit 1
 
