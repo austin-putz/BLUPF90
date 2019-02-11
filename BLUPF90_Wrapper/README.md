@@ -10,15 +10,15 @@ on Ubuntu 16.04, please do not run on a Mac because it's not the GNU version wit
 
 # Getting Started
 
-The easiest way to explain is to probable just show you an example. Here is a screenshot of the command line. 
+The easiest way to explain is to probable just show you an example. Here is a screenshot of the 
+shell script written to run the command. I call it `run.sh`, then use `nohup ./run.sh > nohup.my_analysis.out`. 
 
 ![Screenshot of Script](/BLUPF90_Wrapper/Screenshots/run_shell_script.png?raw=true "bash script example")
 
-You can the program and then other options. 
+If you run the script with no options, it should show you all the options and keywords you need. 
+Here are the following options. 
 
 ![Screenshot of Script](/BLUPF90_Wrapper/Screenshots/blupf90_shell_script_message.png?raw=true "bash script example")
-
-This shows you what you will get with no input to `blupf90.sh`. It will show you what options are available. 
 
 # Overview
 
@@ -29,10 +29,21 @@ analyses. The gibbs samplers will stop with missing values for some odd
 reason. For multitrait models (2 trait so far) it will delete only those 
 lines with both missing. Files that it doesn't find, it just skips and 
 goes to the next analysis. It looks for column names in the `header.txt` 
-file (or whatever you name it). You place the term `trait1 trait2` in the 
+file (or whatever you name it). You place the term `columns` in the 
 line following TRAITS in the parameter file and it replaces these with the 
 correct column numbers. You add `file.dat` as the keyword to replace after 
 the DATAFILE keyword in the parameter files. It replaces this with the processed datafile. 
+This continues until all the keywords have been replaced and then the
+parameter file can be run. 
+
+# Steps
+
+1. Add keywords to the paramter files including the `columns`, `data.dat`, and `ped.dat` keywords 
+at minimum. These will be replaced with what you specify in the shell script. 
+2. Name the parameter files with a `basename.trait1.trait2.par` type of system. Use the
+same basename for each file. For single trait files use `basename.trait1.par`. My
+example might be `cdpq.ADG.ADFI.par` which would be a two trait analysis
+with ADG as trait1 and ADFI as trait2. 
 
 # Inputs
 
@@ -50,6 +61,17 @@ the DATAFILE keyword in the parameter files. It replaces this with the processed
 12. ns = number of samples for gibbs sampler
 13. bi = burn-in for gibbs sampler
 14. st = store every x samples for gibbs sampler
+
+
+
+
+
+
+
+
+
+
+
 
 
 
