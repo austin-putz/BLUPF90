@@ -40,10 +40,17 @@ parameter file can be run.
 
 1. Add keywords to the paramter files including the `columns`, `data.dat`, and `ped.dat` keywords 
 at minimum. These will be replaced with what you specify in the shell script. 
+See the options for what other keywords to add to the paramter files. With the new
+script, I added the ability to add variance component starting values. 
 2. Name the parameter files with a `basename.trait1.trait2.par` type of system. Use the
 same basename for each file. For single trait files use `basename.trait1.par`. My
 example might be `cdpq.ADG.ADFI.par` which would be a two trait analysis
 with ADG as trait1 and ADFI as trait2. 
+3. Place all of these parameter files in a 'parameter file directory'. 
+4. Run the script from the directory that contains the parameter file directory (1 back or up)
+5. Usually put inside a very small shell script so I can run with `nohup`. Use
+`nohup ./run.sh > nohup.Analysis_Name.out` as a way to run the analysis and walk
+away from this analysis until it's done. 
 
 # Inputs
 
