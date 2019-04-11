@@ -8,6 +8,8 @@ OS's: Mac OS X or Linux
 ```  $ chmod 775 installQMSimSyntax ```
 2. Run the bash script with:
 ```  $./installQMSimSyntax ```
+3. While in vim you might want to use the following in command mode
+``` :set syntax=par ```
 
 in the same directory you saved the other 2 files.
 
