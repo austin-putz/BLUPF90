@@ -21,6 +21,7 @@ endif
 
 " MAIN keywords
 syn keyword parReqKeywords DATAFILE TRAITS FIELDS_PASSED TO OUTPUT WEIGHT S
+syn keyword parReqKeywords SKIP_HEADER
 syn keyword parReqKeywords RESIDUAL_VARIANCE EFFECT RANDOM
 syn keyword parReqKeywords CO VARIANCES VARIANCES_PE VARIANCES_MPE
 syn keyword parReqKeywords NUMBER_OF_TRAITS NUMBER_OF_EFFECTS OBSERVATION
@@ -28,6 +29,7 @@ syn keyword parReqKeywords RANDOM_RESIDUAL VALUES RANDOM_GROUP RANDOM_TYPE
 
 " OPTIONAL keywords
 syn keyword parOptKeywords NESTED OPTIONAL FILE FILE_POS SNP_FILE PED_DEPTH GEN_INT REC_SEX UPG_TYPE 
+syn keyword parOptKeywords INBREEDING
 syn keyword parOptKeywords RANDOM_REGRESSION RR_POSITION COMBINE OPTION
 
 " TYPE
@@ -35,7 +37,8 @@ syn keyword parKeywords cross alpha cov numer
 syn keyword parKeywords add_animal
 
 " RANDOM
-syn keyword parKeywords animal sire diagonal
+syn keyword parKeywords animal sire diagonal pedigree file
+syn keyword parKeywords yob in_pedigrees internal
 
 " OPTIONAL
 syn keyword parKeywords pe mat mpe
@@ -44,7 +47,7 @@ syn keyword parKeywords data legendre
 " UPG_TYPE
 syn keyword parKeywords yob in_pedigrees internal
 
-" OPTIONs
+" MAIN OPTIONS
 syn keyword parKeywords alpha_size max_string_readline max_field_readline
 
 """ PROGRAMS
@@ -53,7 +56,7 @@ syn keyword parKeywords alpha_size max_string_readline max_field_readline
 syn keyword parAireml conv_crit maxrounds EM REML use_yams tol sol se residual missing
 syn keyword parAireml hetres_pos hetres_pol
 syn keyword parAireml constant_var se_covar_function store_pev_pec samples_se_covar_function out_se_covar_function
-syn keyword parAireml SNP_file
+syn keyword parAireml SNP_file origID method VCE BLUP
 
 " BLUP
 syn keyword parBlup solv_method r_factor blksize prior_solutions stdresidual check_levels 
